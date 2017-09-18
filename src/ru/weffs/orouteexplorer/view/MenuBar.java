@@ -77,19 +77,12 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         viewMenuBarMenuItem = new CheckMenuItem();
         viewMenuBarMenuItem.setText("_Menu Bar");
         viewMenuBarMenuItem.setSelected(true);
-        viewMenuBarMenuItem.setOnAction((ActionEvent event) -> {
-            mainController.getGUIController().getMainWindow().getMainScene().showMenuBar(viewMenuBarMenuItem.isSelected());
-        });
+        viewMenuBarMenuItem.setOnAction(event -> mainController.getGUIController().getMainWindow().getMainScene().showMenuBar(viewMenuBarMenuItem.isSelected()));
         
         viewFullScreenMenuItem = new CheckMenuItem();
         viewFullScreenMenuItem.setText("_Fullscreen");
         viewFullScreenMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F11));
-        viewFullScreenMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                mainController.getGUIController().getMainWindow().SetFullscreen(viewFullScreenMenuItem.isSelected());                        
-            }
-        });
+        viewFullScreenMenuItem.setOnAction(event -> mainController.getGUIController().getMainWindow().SetFullscreen(viewFullScreenMenuItem.isSelected()));
         
         menu.getItems().addAll(
                 viewMenuBarMenuItem,

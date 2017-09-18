@@ -56,6 +56,9 @@ public class GUIController {
                 Document document = documentController.getDocument();
                 
                 Image image = documentController.importImage(file);
+                document.notifyObservers();
+                
+                return true;
             } catch (IOException exception) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.initOwner(parent);

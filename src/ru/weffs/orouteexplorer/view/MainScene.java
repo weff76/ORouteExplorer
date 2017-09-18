@@ -17,12 +17,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import ru.weffs.orouteexplorer.controller.MainController;
 import ru.weffs.orouteexplorer.eventhandler.KeyEventHandler;
+import ru.weffs.orouteexplorer.model.Document;
+import ru.weffs.orouteexplorer.model.Observer;
 
 /**
  *
  * @author dilobachev
  */
-public class MainScene extends Scene {
+public class MainScene extends Scene implements Observer {
 
     private final MainController mainController;
     private final MainWindow mainWindow;
@@ -87,5 +89,29 @@ public class MainScene extends Scene {
         }  
         menuBar.selectViewMenuBarItem(show);
     }
-    
+
+    public void setArtBoard(int width, int height) {
+        if (!artBoardGroup.getChildren().isEmpty()) {
+            clearArtBoard();
+        }
+
+        artBoard = new ArtBoard(mainController, width, height);
+        artBoardGroup.getChildren().add(artBoard);        
+    }
+
+    private void clearArtBoard() {
+        artBoard = null;
+        artBoardGroup.getChildren().clear();
+    }
+
+    @Override
+    public void update() {
+        Document document = mainController.getDocumentController().getDocument();
+
+        if (artBoard != null) {
+            artBoardGroup.getChildren().clear();
+            artBoardGroup.getChildren().add(artBoard);
+            artBoardGroup.getChildren().addAll(document.getObjects());
+        }    
+    }
 }

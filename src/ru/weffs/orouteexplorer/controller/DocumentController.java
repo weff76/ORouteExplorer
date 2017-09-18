@@ -29,6 +29,10 @@ public class DocumentController {
     }
     
     public Document getDocument() {
+        if (document==null) {
+            createEmptyDocument();
+            document.registerObserver(mainController.getGUIController().getMainWindow().getMainScene());
+        }
         return document;
     }
     
@@ -53,5 +57,15 @@ public class DocumentController {
         addObject(image);
         
         return image;
+    }
+
+    void createEmptyDocument() {
+        document = new Document(mainController);
+        setDimensions(100, 100);
+    }
+
+    public void setDimensions(int width, int height) {
+        document.setDimensions(width, height);
+        mainScene.setArtBoard(document.getWidth(), document.getHeight());        
     }
 }

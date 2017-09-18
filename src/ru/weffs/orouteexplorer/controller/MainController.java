@@ -18,8 +18,9 @@ public class MainController {
     private final DocumentController documentController;
     
     public MainController(Stage stage) {
-        documentController = new DocumentController(this);
         guiController = new GUIController(this, stage);
+        documentController = new DocumentController(this);
+
         guiController.openMainWindow();
     }
 

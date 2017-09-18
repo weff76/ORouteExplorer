@@ -10,6 +10,7 @@ import java.util.List;
 import javafx.event.EventType;
 import javafx.scene.Node;
 import ru.weffs.orouteexplorer.controller.MainController;
+import ru.weffs.orouteexplorer.view.MainScene;
 
 /**
  *
@@ -21,6 +22,9 @@ public class Document {
     
     private final List<Observer> observers;
     private final List<Node> objects;
+    
+    private int width;
+    private int height;
     
     private boolean isSaved;
     
@@ -36,5 +40,30 @@ public class Document {
     public void addObject(Node object) {
         objects.add(object);
     }
+
+    public void setDimensions(int width, int height) {
+        this.width = width;
+        this.height = height;
+        notifyObservers();        
+    }
+
+    public void notifyObservers() {
+        observers.forEach(Observer::update);
+    }
     
+    public int getWidth() {
+        return width;
+    }
+            
+    public int getHeight() {
+        return height;
+    }
+
+    public List<Node> getObjects() {
+        return objects;
+    }
+
+    public void registerObserver(Observer observer) {
+        observers.add(observer);
+    }
 }
