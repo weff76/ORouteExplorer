@@ -5,7 +5,10 @@
  */
 package ru.weffs.orouteexplorer.controller;
 
+import com.hs.gpxparser.GPXParser;
+import com.hs.gpxparser.modal.GPX;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
@@ -69,5 +72,35 @@ public class GUIController {
         }
         return false;
     }
-    
+
+    public boolean importRoute(Stage parent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select Route to import");
+
+        fileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("GPX files (*.gpx)", "*.gpx", "*.GPX")
+        );
+        
+        File file = fileChooser.showOpenDialog(parent);
+        if (file != null) {
+            try {
+                DocumentController documentController = mainController.getDocumentController();
+                Document document = documentController.getDocument();
+
+                GPXParser p = new GPXParser();
+                FileInputStream in = new FileInputStream(file.getPath());
+                GPX gpx = p.parseGPX(in);                
+                
+                    
+                return true;
+            } catch (Exception exception) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.initOwner(parent);
+                alert.setContentText("An error occured while trying to load the GPX file: " + exception.getMessage());
+
+                alert.showAndWait();
+            }
+        }    
+        return false;
+    }
 }

@@ -110,7 +110,7 @@ public class MainScene extends Scene implements Observer {
 
         if (artBoard != null) {
             artBoardGroup.getChildren().clear();
-            artBoardGroup.getChildren().add(artBoard);
+//            artBoardGroup.getChildren().add(artBoard);
             artBoardGroup.getChildren().addAll(document.getObjects());
         }    
     }

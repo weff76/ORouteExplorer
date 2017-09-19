@@ -26,6 +26,7 @@ public class MenuBar extends javafx.scene.control.MenuBar {
     private final MainController mainController;
     
     private MenuItem addMapMenuItem;
+    private MenuItem addRouteMenuItem;
     private MenuItem fileExitMenuItem;
     
     private CheckMenuItem viewMenuBarMenuItem;
@@ -53,7 +54,12 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         addMapMenuItem.setText("Add _map...");
         addMapMenuItem.setGraphic(new ImageView(new Image(ClassLoader.getSystemResourceAsStream("icons/16x16/map_add.png"))));
         addMapMenuItem.setOnAction(event -> mainController.getGUIController().importImage(mainController.getGUIController().getMainWindow().getStage()));
-                
+        
+        addRouteMenuItem = new MenuItem();
+        addRouteMenuItem.setText("Add _route...");
+        addRouteMenuItem.setGraphic(new ImageView(new Image(ClassLoader.getSystemResourceAsStream("icons/16x16/chart_curve_add.png"))));
+        addRouteMenuItem.setOnAction(event -> mainController.getGUIController().importRoute(mainController.getGUIController().getMainWindow().getStage()));
+        
         fileExitMenuItem = new MenuItem();
         fileExitMenuItem.setText("E_xit");
         fileExitMenuItem.setGraphic(new ImageView(new Image(ClassLoader.getSystemResourceAsStream("icons/16x16/door_in.png"))));
@@ -63,6 +69,7 @@ public class MenuBar extends javafx.scene.control.MenuBar {
         menu.getItems().addAll(
                 new SeparatorMenuItem(),
                 addMapMenuItem,
+                addRouteMenuItem,
                 new SeparatorMenuItem(),
                 fileExitMenuItem
         );
