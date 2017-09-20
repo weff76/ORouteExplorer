@@ -15,6 +15,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ru.weffs.orouteexplorer.model.Document;
 import ru.weffs.orouteexplorer.model.object.Image;
+import ru.weffs.orouteexplorer.model.object.RouteXYZ;
 import ru.weffs.orouteexplorer.view.MainWindow;
 
 /**
@@ -91,6 +92,7 @@ public class GUIController {
                 FileInputStream in = new FileInputStream(file.getPath());
                 GPX gpx = p.parseGPX(in);                
                 
+                RouteXYZ routeXYZ = new RouteXYZ(gpx);
                     
                 return true;
             } catch (Exception exception) {

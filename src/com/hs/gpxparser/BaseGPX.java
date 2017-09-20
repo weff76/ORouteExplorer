@@ -8,7 +8,7 @@ import com.hs.gpxparser.extension.IExtensionParser;
 
 class BaseGPX {
 
-    final SimpleDateFormat xmlDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    final SimpleDateFormat xmlDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
     final ArrayList<IExtensionParser> extensionParsers = new ArrayList<>();
 
     BaseGPX() {
