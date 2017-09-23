@@ -5,12 +5,9 @@
  */
 package ru.weffs.orouteexplorer.view;
 
-import java.util.concurrent.Callable;
-import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -18,6 +15,7 @@ import javafx.scene.layout.VBox;
 import ru.weffs.orouteexplorer.controller.MainController;
 import ru.weffs.orouteexplorer.eventhandler.KeyEventHandler;
 import ru.weffs.orouteexplorer.model.Document;
+import ru.weffs.orouteexplorer.model.GUIState;
 import ru.weffs.orouteexplorer.model.Observer;
 
 /**
@@ -107,11 +105,27 @@ public class MainScene extends Scene implements Observer {
     @Override
     public void update() {
         Document document = mainController.getDocumentController().getDocument();
+        GUIState guiState = mainController.getGUIController().getGuiState();
 
-        if (artBoard != null) {
+//        if (artBoard != null) {
             artBoardGroup.getChildren().clear();
 //            artBoardGroup.getChildren().add(artBoard);
             artBoardGroup.getChildren().addAll(document.getObjects());
-        }    
+//        }    
+        setZoomLevel(guiState.getZoomLevel());
     }
+
+    public void activateControls(boolean activate) {
+        menuBar.activateControls(activate);
+    }
+
+    private void setZoomLevel(double zoomLevel) {
+        artBoardGroup.setScaleX(zoomLevel);
+        artBoardGroup.setScaleY(zoomLevel);
+    }
+
+    public MenuBar getMenuBar() {
+        return menuBar;
+    }
+
 }

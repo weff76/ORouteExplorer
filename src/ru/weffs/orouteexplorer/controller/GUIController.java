@@ -14,6 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ru.weffs.orouteexplorer.model.Document;
+import ru.weffs.orouteexplorer.model.GUIState;
 import ru.weffs.orouteexplorer.model.object.Image;
 import ru.weffs.orouteexplorer.model.object.RouteXYZ;
 import ru.weffs.orouteexplorer.view.MainWindow;
@@ -26,9 +27,11 @@ public class GUIController {
 
     private final MainController mainController;
     private final MainWindow mainWindow;
+    private final GUIState guiState;
     
     GUIController(MainController mainController, Stage stage) {
         this.mainController = mainController;
+        guiState = new GUIState(mainController);
         mainWindow = new MainWindow(mainController, stage);
     }
 
@@ -104,5 +107,9 @@ public class GUIController {
             }
         }    
         return false;
+    }
+
+    public GUIState getGuiState() {
+        return guiState;
     }
 }

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import javafx.scene.Node;
 import ru.weffs.orouteexplorer.model.Document;
+import ru.weffs.orouteexplorer.model.GUIState;
 import ru.weffs.orouteexplorer.model.object.Image;
 import ru.weffs.orouteexplorer.view.MainScene;
 
@@ -32,6 +33,11 @@ public class DocumentController {
         if (document==null) {
             createEmptyDocument();
             document.registerObserver(mainController.getGUIController().getMainWindow().getMainScene());
+            document.registerObserver(mainController.getGUIController().getMainWindow().getMainScene().getMenuBar());
+
+            GUIState guiState = mainController.getGUIController().getGuiState();
+            guiState.registerObserver(mainController.getGUIController().getMainWindow().getMainScene());
+            guiState.registerObserver(mainController.getGUIController().getMainWindow().getMainScene().getMenuBar());
         }
         return document;
     }
@@ -61,11 +67,12 @@ public class DocumentController {
 
     void createEmptyDocument() {
         document = new Document(mainController);
-        setDimensions(100, 100);
+        mainScene.activateControls(true);
+//        setDimensions(100, 100);
     }
 
-    public void setDimensions(int width, int height) {
-        document.setDimensions(width, height);
-        mainScene.setArtBoard(document.getWidth(), document.getHeight());        
-    }
+//    public void setDimensions(int width, int height) {
+//        document.setDimensions(width, height);
+//        mainScene.setArtBoard(document.getWidth(), document.getHeight());        
+//    }
 }

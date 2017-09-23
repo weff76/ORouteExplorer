@@ -62,4 +62,5 @@ public class RouteXYZ {
                 + Math.pow(point1.getZ() - point2.getZ(), 2)
         );
     }
+
 }
