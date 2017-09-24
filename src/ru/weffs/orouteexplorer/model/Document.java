@@ -21,8 +21,8 @@ public class Document {
     private final List<Observer> observers;
     private final List<Node> objects;
     
-//    private int width;
-//    private int height;
+    private double width;
+    private double height;
     
     private final boolean isSaved;
     
@@ -39,23 +39,23 @@ public class Document {
         objects.add(object);
     }
 
-//    public void setDimensions(int width, int height) {
-//        this.width = width;
-//        this.height = height;
-//        notifyObservers();        
-//    }
+    public void setDimensions(double width, double height) {
+        this.width = width;
+        this.height = height;
+        notifyObservers();        
+    }
 
     public void notifyObservers() {
         observers.forEach(Observer::update);
     }
     
-//    public int getWidth() {
-//        return width;
-//    }
-//            
-//    public int getHeight() {
-//        return height;
-//    }
+    public double getWidth() {
+        return width;
+    }
+            
+    public double getHeight() {
+        return height;
+    }
 
     public List<Node> getObjects() {
         return objects;

@@ -5,10 +5,7 @@
  */
 package ru.weffs.orouteexplorer.controller;
 
-import com.hs.gpxparser.GPXParser;
-import com.hs.gpxparser.modal.GPX;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
@@ -16,7 +13,7 @@ import javafx.stage.Stage;
 import ru.weffs.orouteexplorer.model.Document;
 import ru.weffs.orouteexplorer.model.GUIState;
 import ru.weffs.orouteexplorer.model.object.Image;
-import ru.weffs.orouteexplorer.model.object.RouteXYZ;
+import ru.weffs.orouteexplorer.model.object.ORoute;
 import ru.weffs.orouteexplorer.view.MainWindow;
 
 /**
@@ -91,11 +88,7 @@ public class GUIController {
                 DocumentController documentController = mainController.getDocumentController();
                 Document document = documentController.getDocument();
 
-                GPXParser p = new GPXParser();
-                FileInputStream in = new FileInputStream(file.getPath());
-                GPX gpx = p.parseGPX(in);                
-                
-                RouteXYZ routeXYZ = new RouteXYZ(gpx);
+                ORoute oRoute = documentController.importGPX(file);
                     
                 return true;
             } catch (Exception exception) {

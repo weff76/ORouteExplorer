@@ -5,13 +5,18 @@
  */
 package ru.weffs.orouteexplorer.controller;
 
+import com.hs.gpxparser.GPXParser;
+import com.hs.gpxparser.modal.GPX;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import javafx.scene.Node;
 import ru.weffs.orouteexplorer.model.Document;
 import ru.weffs.orouteexplorer.model.GUIState;
 import ru.weffs.orouteexplorer.model.object.Image;
+import ru.weffs.orouteexplorer.model.object.ORoute;
 import ru.weffs.orouteexplorer.view.MainScene;
 
 /**
@@ -61,6 +66,7 @@ public class DocumentController {
         image.setFitHeight(img.getHeight());
         
         addObject(image);
+        setDimensions(img.getWidth(), img.getHeight());
         
         return image;
     }
@@ -68,11 +74,21 @@ public class DocumentController {
     void createEmptyDocument() {
         document = new Document(mainController);
         mainScene.activateControls(true);
-//        setDimensions(100, 100);
     }
 
-//    public void setDimensions(int width, int height) {
-//        document.setDimensions(width, height);
-//        mainScene.setArtBoard(document.getWidth(), document.getHeight());        
-//    }
+    private void setDimensions(double width, double height) {
+        document.setDimensions(width, height);
+    }
+
+    ORoute importGPX(File file) throws Exception {
+
+        GPXParser p = new GPXParser();
+        GPX gpx = p.parseGPX(new FileInputStream(file.getPath()));                
+        
+        ORoute oRoute = new ORoute(gpx, document.getWidth(), document.getHeight());
+        addObject(oRoute.getPath());
+        
+        return oRoute;
+    }
+    
 }
