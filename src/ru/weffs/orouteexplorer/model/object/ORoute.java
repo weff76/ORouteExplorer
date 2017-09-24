@@ -12,10 +12,13 @@ import com.hs.gpxparser.modal.Waypoint;
 import java.util.ArrayList;
 import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
+import javafx.scene.shape.PathElement;
 import javafx.scene.shape.StrokeLineCap;
 
 /**
@@ -129,6 +132,13 @@ public class ORoute extends Path {
                 path.setStroke(Color.RED);
                 path.setStrokeLineCap(StrokeLineCap.ROUND);
             }
+        });
+        path.addEventHandler(MouseEvent.MOUSE_ENTERED_TARGET, event -> {
+            path.setEffect(new DropShadow(20, Color.BLACK));
+//            PathElement pathElement = (PathElement) path.getElements().;
+        });
+        path.addEventHandler(MouseEvent.MOUSE_EXITED_TARGET, event -> {
+            path.setEffect(null);
         });
     }
     
