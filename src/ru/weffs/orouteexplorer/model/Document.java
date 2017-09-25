@@ -50,10 +50,12 @@ public class Document {
     }
     
     public double getWidth() {
+        if (width == 0) width = 1024.0;
         return width;
     }
             
     public double getHeight() {
+        if (height == 0) height = 768.0;
         return height;
     }
 

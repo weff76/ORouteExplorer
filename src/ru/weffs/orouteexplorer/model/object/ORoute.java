@@ -129,20 +129,40 @@ public class ORoute extends Path {
             } else {
                 path.getElements().add(new LineTo(point2D.getX(), point2D.getY()));
                 path.setStrokeWidth(5.0);
-                path.setStroke(Color.RED);
+                path.setStroke(Color.BLUE);
                 path.setStrokeLineCap(StrokeLineCap.ROUND);
             }
         });
+
         path.addEventHandler(MouseEvent.MOUSE_ENTERED_TARGET, event -> {
-            path.setEffect(new DropShadow(20, Color.BLACK));
-//            PathElement pathElement = (PathElement) path.getElements().;
+//            path.setEffect(new DropShadow(20, Color.BLACK));
         });
+
         path.addEventHandler(MouseEvent.MOUSE_EXITED_TARGET, event -> {
-            path.setEffect(null);
+//            path.setEffect(null);
+        });
+
+        path.addEventHandler(MouseEvent.MOUSE_MOVED, event -> {
+            if (mouseNearPath(event)) {
+            }
         });
     }
-    
+
     public Path getPath() {
         return path;
+    }
+
+    private boolean mouseNearPath(MouseEvent event) {
+        double mouseX = event.getX();
+        double mouseY = event.getY();
+
+        mapPlainCoords.forEach((Point2D point2D) -> {
+            if (Math.abs(point2D.getX() - mouseX) < 5.0
+                    && Math.abs(point2D.getY() - mouseY) < 5.0) {
+                System.out.println(point2D.toString());
+            }
+        });
+
+        return true;
     }
 }

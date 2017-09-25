@@ -89,6 +89,7 @@ public class GUIController {
                 Document document = documentController.getDocument();
 
                 ORoute oRoute = documentController.importGPX(file);
+                document.notifyObservers();
                     
                 return true;
             } catch (Exception exception) {
