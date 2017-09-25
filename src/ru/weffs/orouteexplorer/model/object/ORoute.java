@@ -12,13 +12,12 @@ import com.hs.gpxparser.modal.Waypoint;
 import java.util.ArrayList;
 import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
-import javafx.scene.shape.PathElement;
 import javafx.scene.shape.StrokeLineCap;
 
 /**
@@ -143,7 +142,9 @@ public class ORoute extends Path {
         });
 
         path.addEventHandler(MouseEvent.MOUSE_MOVED, event -> {
-            if (mouseNearPath(event)) {
+            Point2D point2D = getNearestPathPoint(event);
+            if (!point2D.equals(null)) {
+                Circle circle = new Circle(point2D.getX(), point2D.getY(), 5);
             }
         });
     }
@@ -152,17 +153,10 @@ public class ORoute extends Path {
         return path;
     }
 
-    private boolean mouseNearPath(MouseEvent event) {
-        double mouseX = event.getX();
-        double mouseY = event.getY();
-
-        mapPlainCoords.forEach((Point2D point2D) -> {
-            if (Math.abs(point2D.getX() - mouseX) < 5.0
-                    && Math.abs(point2D.getY() - mouseY) < 5.0) {
-                System.out.println(point2D.toString());
-            }
-        });
-
-        return true;
+    private Point2D getNearestPathPoint(MouseEvent event) {
+        return mapPlainCoords.stream().filter((point2D) -> {
+            return Math.abs(point2D.getY() - event.getY()) < 5.0
+                    && Math.abs(point2D.getX() - event.getX()) < 5.0;
+        }).findFirst().get();
     }
 }
