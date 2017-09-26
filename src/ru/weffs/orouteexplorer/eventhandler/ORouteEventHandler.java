@@ -30,6 +30,7 @@ public class ORouteEventHandler extends MouseEventHandler {
             ORoute oRoute = (ORoute) event.getSource();
             Point2D point2D = getNearestPathPoint(event, oRoute);
             
+            System.out.println(event.toString());
             oRoute.setTrackPoint(event.getX(), event.getY());
             mainController.getDocumentController().getDocument().notifyObservers();
         };

@@ -10,6 +10,7 @@ import java.io.IOException;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Path;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ru.weffs.orouteexplorer.eventhandler.MouseEventHandler;
@@ -95,7 +96,7 @@ public class GUIController {
                 ORoute oRoute = documentController.importGPX(file);
                 
                 ORouteEventHandler oRouteEventHandler = new ORouteEventHandler(mainController);
-                oRoute.addEventHandler(MouseEvent.MOUSE_MOVED, oRouteEventHandler.getMouseMoveEventHandler());
+                ((Path)oRoute).addEventHandler(MouseEvent.MOUSE_MOVED, oRouteEventHandler.getMouseMoveEventHandler());
 
 //                        setOnMouseMoved(oRouteEventHandler.getMouseMoveEventHandler());
 //                oRoute.setOnMouseExited(oRouteEventHandler.getMouseExitedEventHandler());
