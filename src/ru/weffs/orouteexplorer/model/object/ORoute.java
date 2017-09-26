@@ -31,7 +31,6 @@ public class ORoute extends Path {
     private final double mapWidth;
     private final double mapHeight;
 
-    private final Path path;
     double minPlaneX = 0.0;
     double minPlaneY = 0.0;
     double maxPlaneX = 0.0;
@@ -41,16 +40,22 @@ public class ORoute extends Path {
     private final ArrayList<Point2D> spherCoords;
     private final ArrayList<Point2D> planeCoords;
     private final ArrayList<Point2D> mapPlainCoords;
-
+    
+    private final Circle trackPoint;
+    private boolean showTrackPoint;
+    
     public ORoute(GPX gpx, double width, double height) {
+        super();
+        
         mapWidth = width;
         mapHeight = height;
 
         spherCoords = new ArrayList<>();
         planeCoords = new ArrayList<>();
         mapPlainCoords = new ArrayList<>();
+        
+        trackPoint = new Circle(5.0, Color.RED);
 
-        path = new Path();
         loadTrackData(gpx);
     }
 
@@ -76,21 +81,6 @@ public class ORoute extends Path {
             adjustTrackData();
             buildPath();
         }
-    }
-
-    private double getSpherDistance(Point2D point1, Point2D point2) {
-        return EARTH_RADIUS * Math.acos(
-                Math.sin(point1.getY()) * Math.sin(point2.getY()) * Math.cos(point1.getX() - point2.getX())
-                + Math.cos(point1.getY()) * Math.cos(point2.getY())
-        );
-    }
-
-    private double getPlaneDistance(Point3D point1, Point3D point2) {
-        return EARTH_RADIUS * Math.sqrt(
-                Math.pow(point1.getX() - point2.getX(), 2)
-                + Math.pow(point1.getY() - point2.getY(), 2)
-                + Math.pow(point1.getZ() - point2.getZ(), 2)
-        );
     }
 
     private void adjustTrackData() {
@@ -124,39 +114,66 @@ public class ORoute extends Path {
     private void buildPath() {
         mapPlainCoords.forEach((Point2D point2D) -> {
             if (mapPlainCoords.indexOf(point2D) == 0) {
-                path.getElements().add(new MoveTo(point2D.getX(), point2D.getY()));
+                getElements().add(new MoveTo(point2D.getX(), point2D.getY()));
             } else {
-                path.getElements().add(new LineTo(point2D.getX(), point2D.getY()));
-                path.setStrokeWidth(5.0);
-                path.setStroke(Color.BLUE);
-                path.setStrokeLineCap(StrokeLineCap.ROUND);
-            }
-        });
-
-        path.addEventHandler(MouseEvent.MOUSE_ENTERED_TARGET, event -> {
-//            path.setEffect(new DropShadow(20, Color.BLACK));
-        });
-
-        path.addEventHandler(MouseEvent.MOUSE_EXITED_TARGET, event -> {
-//            path.setEffect(null);
-        });
-
-        path.addEventHandler(MouseEvent.MOUSE_MOVED, event -> {
-            Point2D point2D = getNearestPathPoint(event);
-            if (!point2D.equals(null)) {
-                Circle circle = new Circle(point2D.getX(), point2D.getY(), 5);
+                getElements().add(new LineTo(point2D.getX(), point2D.getY()));
+                setStrokeWidth(5.0);
+                setStroke(Color.BLUE);
+                setStrokeLineCap(StrokeLineCap.ROUND);
             }
         });
     }
 
-    public Path getPath() {
-        return path;
+    public ArrayList<Point2D> getMapPlainCoords() {
+        return mapPlainCoords;
     }
 
-    private Point2D getNearestPathPoint(MouseEvent event) {
-        return mapPlainCoords.stream().filter((point2D) -> {
-            return Math.abs(point2D.getY() - event.getY()) < 5.0
-                    && Math.abs(point2D.getX() - event.getX()) < 5.0;
-        }).findFirst().get();
+    public Circle getTrackPoint() {
+        return trackPoint;
     }
+    
+    public boolean isShowTrackPoint() {
+        return showTrackPoint;
+    }
+    
+    public void setShowTrackPoint(boolean state) {
+        showTrackPoint = state;
+    }
+    
+    public void setTrackPoint(double x, double  y) {
+        trackPoint.setCenterX(x);
+        trackPoint.setCenterY(y);
+        setShowTrackPoint(true);
+    }            
+            
+//    private double getSpherDistance(Point2D point1, Point2D point2) {
+//        return EARTH_RADIUS * Math.acos(
+//                Math.sin(point1.getY()) * Math.sin(point2.getY()) * Math.cos(point1.getX() - point2.getX())
+//                + Math.cos(point1.getY()) * Math.cos(point2.getY())
+//        );
+//    }
+
+//    private double getPlaneDistance(Point3D point1, Point3D point2) {
+//        return EARTH_RADIUS * Math.sqrt(
+//                Math.pow(point1.getX() - point2.getX(), 2)
+//                + Math.pow(point1.getY() - point2.getY(), 2)
+//                + Math.pow(point1.getZ() - point2.getZ(), 2)
+//        );
+//    }
+
+//        path.addEventHandler(MouseEvent.MOUSE_MOVED, event -> {
+//            Point2D point2D = getNearestPathPoint(event);
+//            if (!point2D.equals(null)) {
+//                Circle circle = new Circle(point2D.getX(), point2D.getY(), 5);
+//            }
+//        });
+
+//    private Point2D getNearestPathPoint(MouseEvent event) {
+//        return mapPlainCoords.stream().filter((point2D) -> {
+//            return Math.abs(point2D.getY() - event.getY()) < 5.0
+//                    && Math.abs(point2D.getX() - event.getX()) < 5.0;
+//        }).findFirst().get();
+//    }
+
+
 }

@@ -52,7 +52,13 @@ public class DocumentController {
     }
     
     public void addObject(Node object) {
-        document.addObject(object);
+        if (object instanceof Image) {
+            document.addMap((Image) object);
+        }
+        
+        if (object instanceof ORoute) {
+            document.addRoute((ORoute) object);
+        }
     }
 
     public Image importImage(File file) throws IOException {
@@ -86,7 +92,7 @@ public class DocumentController {
         GPX gpx = p.parseGPX(new FileInputStream(file.getPath()));                
         
         ORoute oRoute = new ORoute(gpx, document.getWidth(), document.getHeight());
-        addObject(oRoute.getPath());
+        addObject(oRoute);
         
         return oRoute;
     }

@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.Node;
 import ru.weffs.orouteexplorer.controller.MainController;
+import ru.weffs.orouteexplorer.model.object.Image;
+import ru.weffs.orouteexplorer.model.object.ORoute;
 
 /**
  *
@@ -19,7 +21,9 @@ public class Document {
     private final MainController mainController;
     
     private final List<Observer> observers;
-    private final List<Node> objects;
+    
+    private final List<Image> maps;
+    private final List<ORoute> oroutes;
     
     private double width;
     private double height;
@@ -29,14 +33,19 @@ public class Document {
     public Document(MainController mainController) {
         this.mainController = mainController;
         
-        objects = new ArrayList<>();
+        maps = new ArrayList<>();
+        oroutes = new ArrayList<>();
         observers = new ArrayList<>();
         
         isSaved = false;                
     }
 
-    public void addObject(Node object) {
-        objects.add(object);
+    public void addMap(Image image) {
+        maps.add(image);
+    }
+
+    public void addRoute(ORoute oRoute) {
+        oroutes.add(oRoute);
     }
 
     public void setDimensions(double width, double height) {
@@ -59,8 +68,12 @@ public class Document {
         return height;
     }
 
-    public List<Node> getObjects() {
-        return objects;
+    public List<ORoute> getRoutes() {
+        return oroutes;
+    }
+
+    public List<Image> getMaps() {
+        return maps;
     }
 
     public void registerObserver(Observer observer) {
