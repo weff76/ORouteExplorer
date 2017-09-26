@@ -95,7 +95,9 @@ public class GUIController {
                 ORoute oRoute = documentController.importGPX(file);
                 
                 ORouteEventHandler oRouteEventHandler = new ORouteEventHandler(mainController);
-                oRoute.setOnMouseMoved(oRouteEventHandler.getMouseMoveEventHandler());
+                oRoute.addEventHandler(MouseEvent.MOUSE_MOVED, oRouteEventHandler.getMouseMoveEventHandler());
+
+//                        setOnMouseMoved(oRouteEventHandler.getMouseMoveEventHandler());
 //                oRoute.setOnMouseExited(oRouteEventHandler.getMouseExitedEventHandler());
 
                 document.notifyObservers();

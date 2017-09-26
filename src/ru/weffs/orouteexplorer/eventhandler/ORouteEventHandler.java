@@ -37,8 +37,8 @@ public class ORouteEventHandler extends MouseEventHandler {
 
     private Point2D getNearestPathPoint(MouseEvent event, ORoute oRoute) {
         return oRoute.getMapPlainCoords().stream().filter((point2D) -> {
-            return Math.abs(point2D.getY() - event.getY()) < 5.0
-                    && Math.abs(point2D.getX() - event.getX()) < 5.0;
+            return Math.abs(point2D.getY() - event.getY()) < 20.0
+                    && Math.abs(point2D.getX() - event.getX()) < 20.0;
         }).findFirst().get();
     }
 
