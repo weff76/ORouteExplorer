@@ -11,3 +11,15 @@ and open the template in the editor.
 .no-focus-outline {
     -fx-focus-color: transparent;
 }
+
+.border-left {
+    -fx-border-color: transparent transparent transparent #cccccc;
+}
+
+.border-right {
+    -fx-border-color: transparent #cccccc transparent transparent;
+}
+
+.statusbar-label {
+    -fx-padding: 2px;
+}

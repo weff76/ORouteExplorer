@@ -5,6 +5,7 @@
  */
 package ru.weffs.orouteexplorer.eventhandler;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
@@ -25,6 +26,7 @@ public class SceneMouseEventHandler extends MouseEventHandler {
     @Override
     public EventHandler<MouseEvent> getMouseMoveEventHandler() {
         return event -> {
+            super.getMouseMoveEventHandler().handle(event);
 //            document.getRoutes().forEach((ORoute oRoute) -> {
 
             ORoute oRoute = null;
@@ -46,15 +48,30 @@ public class SceneMouseEventHandler extends MouseEventHandler {
     }
 
     private Point2D getNearestORoutePoint(MouseEvent event, ORoute oRoute) {
-        Optional<Point2D> result = oRoute.getMapPlainCoords().stream().filter((point2D) -> {
-            return Math.abs(point2D.getY() - event.getY()) < 3.0
-                    && Math.abs(point2D.getX() - event.getX()) < 3.0;
-        }).findFirst();
-        if (result.isPresent()) {
-            return result.get();
-        } else {
-            return null;
+
+        for (Point2D point2D : oRoute.getMapPlainCoords()) {
+                if (Math.abs(point2D.getY() - event.getY()) < 10.0 && Math.abs(point2D.getX() - event.getX()) < 10.0) {
+                    return point2D;
+                }
         }
+        
+        return null;
+//            oRoute.getMapPlainCoords().forEach(point2D -> {
+//                if (Math.abs(point2D.getY() - event.getY()) < 3.0 && Math.abs(point2D.getX() - event.getX()) < 3.0) {
+//                    
+//                }
+//            });
+//        Optional<Point2D> result = oRoute.getMapPlainCoords().stream().filter((point2D) -> {
+//            mainScene.getStatusBar().setDeltaLabel((int) Math.abs(point2D.getX() - event.getX()), (int) Math.abs(point2D.getY() - event.getY()));
+//
+//            return Math.abs(point2D.getY() - event.getY()) < 3.0
+//                    && Math.abs(point2D.getX() - event.getX()) < 3.0;
+//        }).findFirst();
+//        if (result.isPresent()) {
+//            return result.get();
+//        } else {
+//            return null;
+//        }
     }
 
 }

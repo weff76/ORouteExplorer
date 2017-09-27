@@ -85,11 +85,14 @@ public class ORoute extends Path {
     }
 
     private void adjustTrackData() {
-        planeCoords.forEach((Point2D point2D) -> {
-            mapPlainCoords.add(new Point2D(
-                    (point2D.getX() - minPlaneX) * mapCoeff + mapWidth * 0.05,
-                    (point2D.getY() - minPlaneY) * mapCoeff + mapHeight * 0.05));
-        });
+        for (int i = 0; i < 100; i++) {
+            mapPlainCoords.add(new Point2D(i,i));            
+        }
+//        planeCoords.forEach((Point2D point2D) -> {
+//            mapPlainCoords.add(new Point2D(
+//                    (point2D.getX() - minPlaneX) * mapCoeff + mapWidth * 0.05,
+//                    (point2D.getY() - minPlaneY) * mapCoeff + mapHeight * 0.05));
+//        });
     }
 
     private void calcCoeffs() {
@@ -118,7 +121,7 @@ public class ORoute extends Path {
                 getElements().add(new MoveTo(point2D.getX(), point2D.getY()));
             } else {
                 getElements().add(new LineTo(point2D.getX(), point2D.getY()));
-                setStrokeWidth(5.0);
+                setStrokeWidth(1.0);
                 setStroke(Color.BLUE);
                 setStrokeLineCap(StrokeLineCap.ROUND);
             }

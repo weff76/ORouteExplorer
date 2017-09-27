@@ -28,7 +28,14 @@ public abstract class MouseEventHandler {
         document = mainController.getDocumentController().getDocument();
     }
     
-    public abstract EventHandler<MouseEvent> getMouseMoveEventHandler();
+    public EventHandler<MouseEvent> getMouseMoveEventHandler() {
+        return event -> {
+            int x = (int) event.getX();
+            int y = (int) event.getY();
+
+            mainScene.getStatusBar().setCoordinatesLabel(x, y);
+        };
+    };
     
     public abstract EventHandler<MouseEvent> getMouseExitedEventHandler();
 

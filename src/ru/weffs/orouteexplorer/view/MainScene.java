@@ -6,19 +6,20 @@
 package ru.weffs.orouteexplorer.view;
 
 import javafx.beans.binding.Bindings;
+import javafx.event.EventType;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Path;
 import ru.weffs.orouteexplorer.controller.MainController;
 import ru.weffs.orouteexplorer.eventhandler.KeyEventHandler;
+import ru.weffs.orouteexplorer.eventhandler.SceneMouseEventHandler;
 import ru.weffs.orouteexplorer.model.Document;
 import ru.weffs.orouteexplorer.model.GUIState;
 import ru.weffs.orouteexplorer.model.Observer;
-import ru.weffs.orouteexplorer.model.object.Image;
 
 /**
  *
@@ -32,6 +33,7 @@ public class MainScene extends Scene implements Observer {
     private final BorderPane mainBorderPane;
     private final VBox topPane;
     private final MenuBar menuBar;
+    private final StatusBar statusBar;
 
     private ArtBoard artBoard;
     private final Group artBoardGroup;
@@ -58,8 +60,10 @@ public class MainScene extends Scene implements Observer {
 
         artBoardZoomGroup = new Group(artBoardGroup);
         artBoardZoomGroup.getStyleClass().add("no-focus-outline");
-
+        
+        
         StackPane stackPane = new StackPane(artBoardZoomGroup);
+//        StackPane stackPane = new StackPane(artBoardGroup);
         stackPane.getStyleClass().add("no-focus-outline");
 
         ScrollPane scrollPane = new ScrollPane(stackPane);
@@ -75,6 +79,9 @@ public class MainScene extends Scene implements Observer {
         KeyEventHandler keyEventHandler = new KeyEventHandler(mainController);
         setOnKeyPressed(keyEventHandler.getKeyPressedEventHandler());
 
+        statusBar = new StatusBar(this.mainController);
+        mainBorderPane.setBottom(statusBar);
+        
         setRoot(mainBorderPane);
     }
 
@@ -131,6 +138,14 @@ public class MainScene extends Scene implements Observer {
 
     public MenuBar getMenuBar() {
         return menuBar;
+    }
+
+    public StatusBar getStatusBar() {
+        return statusBar;
+    }
+
+    public Group getArtBoardZoomGroup() {
+        return artBoardZoomGroup;
     }
 
 }
