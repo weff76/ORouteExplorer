@@ -5,6 +5,7 @@
  */
 package ru.weffs.orouteexplorer.eventhandler;
 
+import java.util.Optional;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
@@ -24,13 +25,18 @@ public class SceneMouseEventHandler extends MouseEventHandler {
     @Override
     public EventHandler<MouseEvent> getMouseMoveEventHandler() {
         return event -> {
-            document.getRoutes().forEach(oRoute -> {
+//            document.getRoutes().forEach((ORoute oRoute) -> {
+
+            ORoute oRoute = null;
+            if (!document.getRoutes().isEmpty()) {
+                oRoute = document.getRoutes().get(0);
                 Point2D point2D = getNearestORoutePoint(event, oRoute);
-                if (!point2D.equals(null)) {
+                if (point2D != null) {
                     oRoute.setTrackPoint(point2D.getX(), point2D.getY());
+                    mainController.getDocumentController().getDocument().notifyObservers();
                 }
-            });
-            mainController.getDocumentController().getDocument().notifyObservers();
+            };
+//            });
         };
     }
 
@@ -40,10 +46,15 @@ public class SceneMouseEventHandler extends MouseEventHandler {
     }
 
     private Point2D getNearestORoutePoint(MouseEvent event, ORoute oRoute) {
-        return oRoute.getMapPlainCoords().stream().filter((point2D) -> {
-            return Math.abs(point2D.getY() - event.getY()) < 10.0
-                    && Math.abs(point2D.getX() - event.getX()) < 10.0;
-        }).findFirst().get();
+        Optional<Point2D> result = oRoute.getMapPlainCoords().stream().filter((point2D) -> {
+            return Math.abs(point2D.getY() - event.getY()) < 3.0
+                    && Math.abs(point2D.getX() - event.getX()) < 3.0;
+        }).findFirst();
+        if (result.isPresent()) {
+            return result.get();
+        } else {
+            return null;
+        }
     }
 
 }

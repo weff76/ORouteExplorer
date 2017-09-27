@@ -124,12 +124,12 @@ public class ORoute extends Path {
             }
         });
 
-        addEventHandler(MouseEvent.MOUSE_MOVED, (MouseEvent event) -> {
-            Point2D point2D = getNearestPathPoint(event);
-            if (!point2D.equals(null)) {
-                Circle circle = new Circle(point2D.getX(), point2D.getY(), 5);
-            }
-        });
+//        addEventHandler(MouseEvent.MOUSE_MOVED, (MouseEvent event) -> {
+//            Point2D point2D = getNearestPathPoint(event);
+//            if (!point2D.equals(null)) {
+//                Circle circle = new Circle(point2D.getX(), point2D.getY(), 5);
+//            }
+//        });
 
     }
 
@@ -170,12 +170,12 @@ public class ORoute extends Path {
 //        );
 //    }
 
-    private Point2D getNearestPathPoint(MouseEvent event) {
-        return mapPlainCoords.stream().filter((point2D) -> {
-            return Math.abs(point2D.getY() - event.getY()) < 5.0
-                    && Math.abs(point2D.getX() - event.getX()) < 5.0;
-        }).findFirst().get();
-    }
+//    private Point2D getNearestPathPoint(MouseEvent event) {
+//        return mapPlainCoords.stream().filter((point2D) -> {
+//            return Math.abs(point2D.getY() - event.getY()) < 5.0
+//                    && Math.abs(point2D.getX() - event.getX()) < 5.0;
+//        }).findFirst().get();
+//    }
 
 
 }
