@@ -32,8 +32,8 @@ public class MainWindow {
     }
 
     public void open() {
-        SceneMouseEventHandler sceneMouseEventHandler = new SceneMouseEventHandler(mainController);
-        mainScene.addEventFilter(MouseEvent.MOUSE_MOVED, sceneMouseEventHandler.getMouseMoveEventHandler());
+//        SceneMouseEventHandler sceneMouseEventHandler = new SceneMouseEventHandler(mainController);
+//        mainScene.addEventFilter(MouseEvent.MOUSE_MOVED, sceneMouseEventHandler.getMouseMoveEventHandler());
         stage.show();
         stage.requestFocus();
     }

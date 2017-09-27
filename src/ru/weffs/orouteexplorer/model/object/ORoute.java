@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -20,6 +21,7 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.StrokeLineCap;
+import ru.weffs.orouteexplorer.eventhandler.ORouteEventHandler;
 
 /**
  *
@@ -124,6 +126,7 @@ public class ORoute extends Path {
                 setStrokeWidth(1.0);
                 setStroke(Color.BLUE);
                 setStrokeLineCap(StrokeLineCap.ROUND);
+                setEffect(new DropShadow(10, Color.RED));
             }
         });
 

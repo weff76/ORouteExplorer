@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import javafx.scene.Node;
+import ru.weffs.orouteexplorer.eventhandler.ORouteEventHandler;
 import ru.weffs.orouteexplorer.model.Document;
 import ru.weffs.orouteexplorer.model.GUIState;
 import ru.weffs.orouteexplorer.model.object.Image;
@@ -95,6 +96,9 @@ public class DocumentController {
 
         ORoute oRoute = new ORoute(gpx, document.getWidth(), document.getHeight());
         addObject(oRoute);
+
+        ORouteEventHandler oRouteEventHandler = new ORouteEventHandler(mainController);
+        oRoute.setOnMouseMoved(oRouteEventHandler.getMouseMoveEventHandler());
 
         return oRoute;
     }

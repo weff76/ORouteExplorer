@@ -27,12 +27,14 @@ public class ORouteEventHandler extends MouseEventHandler {
     @Override
     public EventHandler<MouseEvent> getMouseMoveEventHandler() {
         return event -> {
-            ORoute oRoute = (ORoute) event.getSource();
-            Point2D point2D = getNearestPathPoint(event, oRoute);
-            
-            System.out.println(event.toString());
-            oRoute.setTrackPoint(event.getX(), event.getY());
-            mainController.getDocumentController().getDocument().notifyObservers();
+            super.getMouseMoveEventHandler().handle(event);
+            System.out.println("X:" + event.getX() + " Y:" + event.getY() + " XS:" + event.getSceneX() + " YS:" + event.getSceneY());
+//            ORoute oRoute = (ORoute) event.getSource();
+//            Point2D point2D = getNearestPathPoint(event, oRoute);
+//            
+//            System.out.println(event.toString());
+//            oRoute.setTrackPoint(event.getX(), event.getY());
+//            mainController.getDocumentController().getDocument().notifyObservers();
         };
     }
 
