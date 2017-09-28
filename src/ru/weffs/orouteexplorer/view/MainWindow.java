@@ -7,10 +7,8 @@ package ru.weffs.orouteexplorer.view;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import ru.weffs.orouteexplorer.controller.MainController;
-import ru.weffs.orouteexplorer.eventhandler.SceneMouseEventHandler;
 
 /**
  *
@@ -34,6 +32,8 @@ public class MainWindow {
     public void open() {
 //        SceneMouseEventHandler sceneMouseEventHandler = new SceneMouseEventHandler(mainController);
 //        mainScene.addEventFilter(MouseEvent.MOUSE_MOVED, sceneMouseEventHandler.getMouseMoveEventHandler());
+//        GroupMouseEventHandler groupMouseEventHandler = new GroupMouseEventHandler(mainController);
+//        mainScene.getArtBoardZoomGroup().addEventFilter(MouseEvent.MOUSE_MOVED, groupMouseEventHandler.getMouseMoveEventHandler());
         stage.show();
         stage.requestFocus();
     }

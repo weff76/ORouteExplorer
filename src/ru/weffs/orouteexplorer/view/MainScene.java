@@ -6,7 +6,6 @@
 package ru.weffs.orouteexplorer.view;
 
 import javafx.beans.binding.Bindings;
-import javafx.event.EventType;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
@@ -15,7 +14,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import ru.weffs.orouteexplorer.controller.MainController;
+import ru.weffs.orouteexplorer.eventhandler.GroupMouseEventHandler;
 import ru.weffs.orouteexplorer.eventhandler.KeyEventHandler;
+import ru.weffs.orouteexplorer.eventhandler.MouseEventHandler;
 import ru.weffs.orouteexplorer.eventhandler.SceneMouseEventHandler;
 import ru.weffs.orouteexplorer.model.Document;
 import ru.weffs.orouteexplorer.model.GUIState;
@@ -60,7 +61,6 @@ public class MainScene extends Scene implements Observer {
 
         artBoardZoomGroup = new Group(artBoardGroup);
         artBoardZoomGroup.getStyleClass().add("no-focus-outline");
-        
         
         StackPane stackPane = new StackPane(artBoardZoomGroup);
 //        StackPane stackPane = new StackPane(artBoardGroup);
