@@ -7,12 +7,8 @@ package ru.weffs.orouteexplorer.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.Node;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Path;
 import ru.weffs.orouteexplorer.controller.MainController;
-import ru.weffs.orouteexplorer.model.object.Image;
+import ru.weffs.orouteexplorer.model.object.OMap;
 import ru.weffs.orouteexplorer.model.object.ORoute;
 
 /**
@@ -25,60 +21,46 @@ public class Document {
     
     private final List<Observer> observers;
     
-    private final List<Image> maps;
-    private final List<Path> paths;
-    private final Circle trackPoint;
-
+    private final List<OMap> oMaps;
+    private final List<ORoute> oRoutes;
     
     private final boolean isSaved;
     
     public Document(MainController mainController) {
         this.mainController = mainController;
         
-        maps = new ArrayList<>();
-        paths = new ArrayList<>();
+        oMaps = new ArrayList<>();
+        oRoutes = new ArrayList<>();
+
         observers = new ArrayList<>();
-        trackPoint = new Circle(5.0, Color.TRANSPARENT);
         
         isSaved = false;                
     }
 
-    public void addMap(Image image) {
-        maps.add(image);
+    public void addOMap(OMap oMap) {
+        oMaps.add(oMap);
+        notifyObservers();
     }
 
-    public void addPath(Path path) {
-        paths.add(path);
+    public void addORoute(ORoute oRoute) {
+        oRoutes.add(oRoute);
+        notifyObservers();
     }
 
     public void notifyObservers() {
         observers.forEach(Observer::update);
     }
     
-    public List<Path> getPaths() {
-        return paths;
+    public List<ORoute> getORoutes() {
+        return oRoutes;
     }
 
-    public List<Image> getMaps() {
-        return maps;
+    public List<OMap> getOMaps() {
+        return oMaps;
     }
 
     public void registerObserver(Observer observer) {
         observers.add(observer);
-    }
-
-    public Circle getTrackPoint() {
-        return trackPoint;
-    }
-
-    public void showTrackPoint(double x, double y) {
-        trackPoint.setCenterX(x);
-        trackPoint.setCenterY(y);
-        trackPoint.setFill(Color.RED);
-    }
-
-    public void hideTrackPoint() {
-        trackPoint.setFill(Color.TRANSPARENT);
     }
 
 }

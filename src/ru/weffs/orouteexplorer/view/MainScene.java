@@ -12,12 +12,12 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Path;
 import ru.weffs.orouteexplorer.controller.MainController;
 import ru.weffs.orouteexplorer.eventhandler.KeyEventHandler;
 import ru.weffs.orouteexplorer.model.Document;
 import ru.weffs.orouteexplorer.model.GUIState;
 import ru.weffs.orouteexplorer.model.Observer;
+import ru.weffs.orouteexplorer.model.object.ORoute;
 
 /**
  *
@@ -113,9 +113,12 @@ public class MainScene extends Scene implements Observer {
         GUIState guiState = mainController.getGUIController().getGuiState();
 
         artBoardGroup.getChildren().clear();
-        artBoardGroup.getChildren().addAll(document.getMaps());
-        artBoardGroup.getChildren().addAll(document.getPaths());
-        artBoardGroup.getChildren().add(document.getTrackPoint());
+        artBoardGroup.getChildren().addAll(document.getOMaps());
+        document.getORoutes().forEach((ORoute oRoute) -> {
+            artBoardGroup.getChildren().add(oRoute.getOTrack().getOTrackShadow());
+            artBoardGroup.getChildren().add(oRoute.getOTrack());
+            artBoardGroup.getChildren().add(oRoute.getOTrackPoint());
+        });
 
         setZoomLevel(guiState.getZoomLevel());
     }

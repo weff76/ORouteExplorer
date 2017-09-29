@@ -5,12 +5,21 @@
  */
 package ru.weffs.orouteexplorer.model.object;
 
-import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 /**
  *
  * @author dilobachev
  */
-public class Image extends ImageView {
+public class OTrackPoint extends Circle {
+ 
+    private final ORoute oRoute;
+    
+    public OTrackPoint(ORoute oRoute) {
+        super(5.0, Color.TRANSPARENT);
+        
+        this.oRoute = oRoute;
+    }
     
 }

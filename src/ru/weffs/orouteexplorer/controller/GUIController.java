@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import ru.weffs.orouteexplorer.eventhandler.ORouteMouseEventHandler;
 import ru.weffs.orouteexplorer.model.Document;
 import ru.weffs.orouteexplorer.model.GUIState;
-import ru.weffs.orouteexplorer.model.object.Image;
+import ru.weffs.orouteexplorer.model.object.OMap;
 import ru.weffs.orouteexplorer.model.object.ORoute;
 import ru.weffs.orouteexplorer.view.MainWindow;
 
@@ -57,12 +57,7 @@ public class GUIController {
         
         if (file != null) {
             try {
-                DocumentController documentController = mainController.getDocumentController();
-                Document document = documentController.getDocument();
-                
-                Image image = documentController.importImage(file);
-                document.notifyObservers();
-                
+                mainController.getDocumentController().importImage(file);
                 return true;
             } catch (IOException exception) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -86,16 +81,7 @@ public class GUIController {
         File file = fileChooser.showOpenDialog(parent);
         if (file != null) {
             try {
-                DocumentController documentController = mainController.getDocumentController();
-                Document document = documentController.getDocument();
-
-                ORoute oRoute = documentController.importGPX(file);
-                
-                ORouteMouseEventHandler oRouteEventHandler = new ORouteMouseEventHandler(mainController);
-                oRoute.setOnMouseMoved(oRouteEventHandler.getMouseMoveEventHandler());
-
-                document.notifyObservers();
-                    
+                mainController.getDocumentController().importGPX(file);
                 return true;
             } catch (Exception exception) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -104,7 +90,7 @@ public class GUIController {
 
                 alert.showAndWait();
             }
-        }    
+        }   
         return false;
     }
 

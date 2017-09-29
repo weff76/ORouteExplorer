@@ -12,10 +12,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
 import javafx.scene.shape.Path;
+import ru.weffs.orouteexplorer.eventhandler.ORouteMouseEventHandler;
 import ru.weffs.orouteexplorer.model.Document;
 import ru.weffs.orouteexplorer.model.GUIState;
-import ru.weffs.orouteexplorer.model.object.Image;
+import ru.weffs.orouteexplorer.model.object.OMap;
 import ru.weffs.orouteexplorer.model.object.ORoute;
 import ru.weffs.orouteexplorer.view.MainScene;
 
@@ -25,73 +27,69 @@ import ru.weffs.orouteexplorer.view.MainScene;
  */
 public class DocumentController {
 
-    private MainController mainController;
+    private final MainController mainController;
+    private final MainScene mainScene;
+
     private Document document;
-    private MainScene mainScene;
 
     public DocumentController(MainController mainController) {
         this.mainController = mainController;
         mainScene = mainController.getGUIController().getMainWindow().getMainScene();
+        createNewDocument();
+    }
+
+    private void createNewDocument() {
+        GUIState guiState = mainController.getGUIController().getGuiState();
+
+        document = new Document(mainController);
+
+        document.registerObserver(mainController.getGUIController().getMainWindow().getMainScene());
+        document.registerObserver(mainController.getGUIController().getMainWindow().getMainScene().getMenuBar());
+        document.registerObserver(mainController.getGUIController().getMainWindow().getMainScene().getStatusBar());
+
+        guiState.registerObserver(mainController.getGUIController().getMainWindow().getMainScene());
+        guiState.registerObserver(mainController.getGUIController().getMainWindow().getMainScene().getMenuBar());
+        guiState.registerObserver(mainController.getGUIController().getMainWindow().getMainScene().getStatusBar());
     }
 
     public Document getDocument() {
-        if (document == null) {
-            createEmptyDocument();
-            document.registerObserver(mainController.getGUIController().getMainWindow().getMainScene());
-            document.registerObserver(mainController.getGUIController().getMainWindow().getMainScene().getMenuBar());
-            document.registerObserver(mainController.getGUIController().getMainWindow().getMainScene().getStatusBar());
-
-            GUIState guiState = mainController.getGUIController().getGuiState();
-            guiState.registerObserver(mainController.getGUIController().getMainWindow().getMainScene());
-            guiState.registerObserver(mainController.getGUIController().getMainWindow().getMainScene().getMenuBar());
-            guiState.registerObserver(mainController.getGUIController().getMainWindow().getMainScene().getStatusBar());
-        }
         return document;
     }
 
-    public void setDocument(Document document) {
-        this.document = document;
-    }
+    public void importImage(File file) throws IOException {
+        Image img = new Image(Files.newInputStream(file.toPath()));
 
-    public void addObject(Node object) {
-        if (object instanceof Image) {
-            document.addMap((Image) object);
-        }
-    }
+        OMap oMap = new OMap(mainController);
+        oMap.setImage(img);
+        oMap.setX(0);
+        oMap.setY(0);
+        oMap.setFitWidth(img.getWidth());
+        oMap.setFitHeight(img.getHeight());
 
-    public Image importImage(File file) throws IOException {
-        javafx.scene.image.Image img = new javafx.scene.image.Image(Files.newInputStream(file.toPath()));
+        addOMap(oMap);
 
-        Image image = new Image();
-        image.setImage(img);
-        image.setX(0);
-        image.setY(0);
-        image.setFitWidth(img.getWidth());
-        image.setFitHeight(img.getHeight());
-
-        addObject(image);
-
-        return image;
-    }
-
-    void createEmptyDocument() {
-        document = new Document(mainController);
         mainScene.activateControls(true);
     }
 
-    ORoute importGPX(File file) throws Exception {
+    public void importGPX(File file) throws Exception {
         GPXParser p = new GPXParser();
         GPX gpx = p.parseGPX(new FileInputStream(file.getPath()));
 
         ORoute oRoute = new ORoute(gpx);
         addORoute(oRoute);
 
-        return oRoute;
+        ORouteMouseEventHandler oRouteEventHandler = new ORouteMouseEventHandler(mainController);
+        oRoute.getOTrack().getOTrackShadow().setOnMouseMoved(oRouteEventHandler.getMouseMoveEventHandler());
+
+        mainScene.activateControls(true);
     }
-    
+
     private void addORoute(ORoute oRoute) {
-        document.addPath((Path)oRoute);
-        document.addPath(oRoute.getVisibleTrack());
+        document.addORoute(oRoute);
+    }
+
+    private void addOMap(OMap oMap) {
+        document.addOMap(oMap);
     }
 
 }
