@@ -10,11 +10,7 @@ import java.io.IOException;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import ru.weffs.orouteexplorer.eventhandler.ORouteMouseEventHandler;
-import ru.weffs.orouteexplorer.model.Document;
 import ru.weffs.orouteexplorer.model.GUIState;
-import ru.weffs.orouteexplorer.model.object.OMap;
-import ru.weffs.orouteexplorer.model.object.ORoute;
 import ru.weffs.orouteexplorer.view.MainWindow;
 
 /**

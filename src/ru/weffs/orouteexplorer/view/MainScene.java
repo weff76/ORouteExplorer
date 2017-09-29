@@ -33,7 +33,6 @@ public class MainScene extends Scene implements Observer {
     private final MenuBar menuBar;
     private final StatusBar statusBar;
 
-    private ArtBoard artBoard;
     private final Group artBoardGroup;
     private final Group artBoardZoomGroup;
 
@@ -91,20 +90,6 @@ public class MainScene extends Scene implements Observer {
             topPane.getChildren().remove(menuBar);
         }
         menuBar.selectViewMenuBarItem(show);
-    }
-
-    public void setArtBoard(int width, int height) {
-        if (!artBoardGroup.getChildren().isEmpty()) {
-            clearArtBoard();
-        }
-
-        artBoard = new ArtBoard(mainController, width, height);
-        artBoardGroup.getChildren().add(artBoard);
-    }
-
-    private void clearArtBoard() {
-        artBoard = null;
-        artBoardGroup.getChildren().clear();
     }
 
     @Override

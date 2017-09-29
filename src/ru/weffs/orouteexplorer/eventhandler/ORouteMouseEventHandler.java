@@ -9,7 +9,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import ru.weffs.orouteexplorer.controller.MainController;
-import ru.weffs.orouteexplorer.model.object.ORoute;
 import ru.weffs.orouteexplorer.model.object.OTrack;
 
 /**
@@ -29,7 +28,6 @@ public class ORouteMouseEventHandler extends MouseEventHandler {
             OTrack oTrackShadow = (OTrack) event.getSource();
             Point2D point2D = getNearestTrackPoint(event, oTrackShadow.getORoute().getOTrack());
             if (point2D != null) {
-//                System.out.println("X:" + point2D.getX() + " Y:" + point2D.getY());
                 oTrackShadow.getORoute().showOTrackPoint(point2D.getX(), point2D.getY());
             } else {
                 oTrackShadow.getORoute().hideOTrackPoint();

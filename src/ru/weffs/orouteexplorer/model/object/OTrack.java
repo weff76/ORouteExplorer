@@ -95,14 +95,19 @@ public class OTrack extends Path {
             }
         }
 
-        double routeWidth = maxFlatX - minFlatX;
-        double routeHeight = maxFlatY - minFlatY;
         final double resizeCoeff;
 
-        if (Math.min(routeWidth, routeHeight) / Math.max(routeWidth, routeHeight) <= 0.75) {
-            resizeCoeff = 1024.0 / routeWidth;
-        } else {
+        double routeWidth = maxFlatX - minFlatX;
+        double routeHeight = maxFlatY - minFlatY;
+
+        if (routeWidth <= routeHeight ) {
             resizeCoeff = 768.0 / routeHeight;
+        } else {
+            if ( routeWidth / routeHeight <= 0.75 ) {
+                resizeCoeff = 1024.0 / routeWidth;
+            } else {
+                resizeCoeff = 768.0 / routeHeight;
+            }
         }
 
         Point2D subtractPoint = new Point2D(minFlatX, minFlatY);
