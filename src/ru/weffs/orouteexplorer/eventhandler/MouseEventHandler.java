@@ -37,6 +37,6 @@ public abstract class MouseEventHandler {
         };
     };
     
-    public abstract EventHandler<MouseEvent> getMouseExitedEventHandler();
+//    public abstract EventHandler<MouseEvent> getMouseExitedEventHandler();
 
 }

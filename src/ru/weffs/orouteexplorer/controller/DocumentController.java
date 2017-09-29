@@ -90,8 +90,8 @@ public class DocumentController {
     }
     
     private void addORoute(ORoute oRoute) {
-        document.addPath(oRoute.getShadowTrack());
         document.addPath((Path)oRoute);
+        document.addPath(oRoute.getVisibleTrack());
     }
 
 }

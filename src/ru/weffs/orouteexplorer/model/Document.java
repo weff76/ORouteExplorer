@@ -8,6 +8,8 @@ package ru.weffs.orouteexplorer.model;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.Node;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Path;
 import ru.weffs.orouteexplorer.controller.MainController;
 import ru.weffs.orouteexplorer.model.object.Image;
@@ -25,6 +27,8 @@ public class Document {
     
     private final List<Image> maps;
     private final List<Path> paths;
+    private final Circle trackPoint;
+
     
     private final boolean isSaved;
     
@@ -34,6 +38,7 @@ public class Document {
         maps = new ArrayList<>();
         paths = new ArrayList<>();
         observers = new ArrayList<>();
+        trackPoint = new Circle(5.0, Color.TRANSPARENT);
         
         isSaved = false;                
     }
@@ -61,4 +66,19 @@ public class Document {
     public void registerObserver(Observer observer) {
         observers.add(observer);
     }
+
+    public Circle getTrackPoint() {
+        return trackPoint;
+    }
+
+    public void showTrackPoint(double x, double y) {
+        trackPoint.setCenterX(x);
+        trackPoint.setCenterY(y);
+        trackPoint.setFill(Color.RED);
+    }
+
+    public void hideTrackPoint() {
+        trackPoint.setFill(Color.TRANSPARENT);
+    }
+
 }

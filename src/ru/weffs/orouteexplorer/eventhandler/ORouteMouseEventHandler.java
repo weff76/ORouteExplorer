@@ -25,31 +25,25 @@ public class ORouteMouseEventHandler extends MouseEventHandler {
     public EventHandler<MouseEvent> getMouseMoveEventHandler() {
         return event -> {
             super.getMouseMoveEventHandler().handle(event);
-            System.out.println("X:" + event.getX() + " Y:" + event.getY());
-//            ORoute oRoute = (ORoute) event.getSource();
-//            Point2D point2D = getNearestPathPoint(event, oRoute);
-//            
-//            System.out.println(event.toString());
-//            oRoute.setTrackPoint(event.getX(), event.getY());
-//            mainController.getDocumentController().getDocument().notifyObservers();
-        };
-    }
-
-    private Point2D getNearestPathPoint(MouseEvent event, ORoute oRoute) {
-        return oRoute.getTrackFlatCoords().stream().filter((point2D) -> {
-            return Math.abs(point2D.getY() - event.getY()) < 20.0
-                    && Math.abs(point2D.getX() - event.getX()) < 20.0;
-        }).findFirst().get();
-    }
-
-    @Override
-    public EventHandler<MouseEvent> getMouseExitedEventHandler() {
-        return event -> {
             ORoute oRoute = (ORoute) event.getSource();
-
-            oRoute.setShowTrackPoint(false);
-            mainController.getDocumentController().getDocument().notifyObservers();
+            Point2D point2D = getNearestTrackPoint(event, oRoute);
+            if (point2D != null) {
+//                System.out.println("X:" + point2D.getX() + " Y:" + point2D.getY());
+                document.showTrackPoint(point2D.getX(), point2D.getY());
+            } else {
+                document.hideTrackPoint();
+            }
+            document.notifyObservers();
         };
+    }
+
+    private Point2D getNearestTrackPoint(MouseEvent event, ORoute oRoute) {
+        for (Point2D point2D : oRoute.getTrackFlatCoords()) {
+            if (Math.abs(point2D.getY() - event.getY()) < 10.0 && Math.abs(point2D.getX() - event.getX()) < 10.0) {
+                return point2D;
+            }
+        }
+        return null;
     }
 
 }

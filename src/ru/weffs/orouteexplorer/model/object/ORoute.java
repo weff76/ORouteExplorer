@@ -26,21 +26,16 @@ public class ORoute extends Path {
 
     private static final double EARTH_RADIUS = 6371;
 
-    private Path shadowTrack;
+    private Path visibleTrack;
 
     private final ArrayList<Point2D> coordSperical;
     private final ArrayList<Point2D> coordFlat;
-
-    private final Circle trackPoint;
-    private boolean showTrackPoint;
 
     public ORoute(GPX gpx) {
         super();
 
         coordSperical = new ArrayList<>();
         coordFlat = new ArrayList<>();
-
-        trackPoint = new Circle(5.0, Color.RED);
 
         loadTrackData(gpx);
     }
@@ -109,44 +104,26 @@ public class ORoute extends Path {
         coordFlat.forEach((Point2D point2D) -> {
             if (coordFlat.indexOf(point2D) == 0) {
                 this.getElements().add(new MoveTo(point2D.getX(), point2D.getY()));
-                if (shadowTrack == null) {
-                    shadowTrack = new Path();
+                if (visibleTrack == null) {
+                    visibleTrack = new Path();
                 }
-                shadowTrack.getElements().add(new MoveTo(point2D.getX(), point2D.getY()));
+                visibleTrack.getElements().add(new MoveTo(point2D.getX(), point2D.getY()));
             } else {
                 this.getElements().add(new LineTo(point2D.getX(), point2D.getY()));
-                shadowTrack.getElements().add(new LineTo(point2D.getX(), point2D.getY()));
+                visibleTrack.getElements().add(new LineTo(point2D.getX(), point2D.getY()));
             }
         });
-        this.setStrokeWidth(3.0);
-        this.setStroke(Color.RED);
+        this.setStrokeWidth(20.0);
+        this.setStroke(Color.TRANSPARENT);
         this.setStrokeLineCap(StrokeLineCap.ROUND);
         
-        shadowTrack.setStrokeWidth(20.0);
-        shadowTrack.setStroke(Color.BLUE);
-        shadowTrack.setStrokeLineCap(StrokeLineCap.ROUND);
+        visibleTrack.setStrokeWidth(3.0);
+        visibleTrack.setStroke(Color.BLUE);
+        visibleTrack.setStrokeLineCap(StrokeLineCap.ROUND);
     }
 
     public ArrayList<Point2D> getTrackFlatCoords() {
         return coordFlat;
-    }
-
-    public Circle getTrackPoint() {
-        return trackPoint;
-    }
-
-    public boolean isShowTrackPoint() {
-        return showTrackPoint;
-    }
-
-    public void setShowTrackPoint(boolean state) {
-        showTrackPoint = state;
-    }
-
-    public void setTrackPoint(double x, double y) {
-        trackPoint.setCenterX(x);
-        trackPoint.setCenterY(y);
-        setShowTrackPoint(true);
     }
 
     private double getSphericalDistance(Point2D point1, Point2D point2) {
@@ -156,8 +133,8 @@ public class ORoute extends Path {
         );
     }
 
-    public Path getShadowTrack() {
-        return shadowTrack;
+    public Path getVisibleTrack() {
+        return visibleTrack;
     }
 
 }

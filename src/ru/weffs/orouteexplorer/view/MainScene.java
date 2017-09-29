@@ -115,12 +115,8 @@ public class MainScene extends Scene implements Observer {
         artBoardGroup.getChildren().clear();
         artBoardGroup.getChildren().addAll(document.getMaps());
         artBoardGroup.getChildren().addAll(document.getPaths());
+        artBoardGroup.getChildren().add(document.getTrackPoint());
 
-        document.getPaths().forEach((Path path) -> {
-//            if (oRoute.isShowTrackPoint()) {
-//                artBoardGroup.getChildren().add(oRoute.getTrackPoint());
-//            }
-        });
         setZoomLevel(guiState.getZoomLevel());
     }
 
