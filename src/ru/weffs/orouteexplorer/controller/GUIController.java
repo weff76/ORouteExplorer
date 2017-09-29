@@ -7,15 +7,10 @@ package ru.weffs.orouteexplorer.controller;
 
 import java.io.File;
 import java.io.IOException;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Path;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import ru.weffs.orouteexplorer.eventhandler.MouseEventHandler;
-import ru.weffs.orouteexplorer.eventhandler.ORouteEventHandler;
-import ru.weffs.orouteexplorer.eventhandler.SceneMouseEventHandler;
+import ru.weffs.orouteexplorer.eventhandler.ORouteMouseEventHandler;
 import ru.weffs.orouteexplorer.model.Document;
 import ru.weffs.orouteexplorer.model.GUIState;
 import ru.weffs.orouteexplorer.model.object.Image;
@@ -96,10 +91,8 @@ public class GUIController {
 
                 ORoute oRoute = documentController.importGPX(file);
                 
-//                ORouteEventHandler oRouteEventHandler = new ORouteEventHandler(mainController);
-//                ((Path)oRoute).addEventHandler(MouseEvent.MOUSE_MOVED, oRouteEventHandler.getMouseMoveEventHandler());
-//                        setOnMouseMoved(oRouteEventHandler.getMouseMoveEventHandler());
-//                oRoute.setOnMouseExited(oRouteEventHandler.getMouseExitedEventHandler());
+                ORouteMouseEventHandler oRouteEventHandler = new ORouteMouseEventHandler(mainController);
+                oRoute.setOnMouseMoved(oRouteEventHandler.getMouseMoveEventHandler());
 
                 document.notifyObservers();
                     

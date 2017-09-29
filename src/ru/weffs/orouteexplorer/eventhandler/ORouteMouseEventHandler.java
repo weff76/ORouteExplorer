@@ -5,12 +5,9 @@
  */
 package ru.weffs.orouteexplorer.eventhandler;
 
-import java.io.PrintStream;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Path;
 import ru.weffs.orouteexplorer.controller.MainController;
 import ru.weffs.orouteexplorer.model.object.ORoute;
 
@@ -18,9 +15,9 @@ import ru.weffs.orouteexplorer.model.object.ORoute;
  *
  * @author dilobachev
  */
-public class ORouteEventHandler extends MouseEventHandler {
+public class ORouteMouseEventHandler extends MouseEventHandler {
 
-    public ORouteEventHandler(MainController mainController) {
+    public ORouteMouseEventHandler(MainController mainController) {
         super(mainController);
     }
 
@@ -39,7 +36,7 @@ public class ORouteEventHandler extends MouseEventHandler {
     }
 
     private Point2D getNearestPathPoint(MouseEvent event, ORoute oRoute) {
-        return oRoute.getMapPlainCoords().stream().filter((point2D) -> {
+        return oRoute.getTrackFlatCoords().stream().filter((point2D) -> {
             return Math.abs(point2D.getY() - event.getY()) < 20.0
                     && Math.abs(point2D.getX() - event.getX()) < 20.0;
         }).findFirst().get();

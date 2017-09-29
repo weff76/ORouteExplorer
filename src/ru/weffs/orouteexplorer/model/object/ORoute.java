@@ -10,18 +10,13 @@ import com.hs.gpxparser.modal.Track;
 import com.hs.gpxparser.modal.TrackSegment;
 import com.hs.gpxparser.modal.Waypoint;
 import java.util.ArrayList;
-import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
-import javafx.geometry.Point3D;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.StrokeLineCap;
-import ru.weffs.orouteexplorer.eventhandler.ORouteEventHandler;
 
 /**
  *
@@ -31,7 +26,7 @@ public class ORoute extends Path {
 
     private static final double EARTH_RADIUS = 6371;
 
-    private double resizeCoeff = 1.0;
+    private Path shadowTrack;
 
     private final ArrayList<Point2D> coordSperical;
     private final ArrayList<Point2D> coordFlat;
@@ -67,20 +62,13 @@ public class ORoute extends Path {
                     });
                 });
             });
-            calcResizeCoeff();
-            adjustTrackData();
-            buildPath();
+            resizeTrackData();
+            buildTrackPath();
         }
     }
 
-    private void adjustTrackData() {
-        coordFlat.forEach((Point2D point2D) -> {
-            point2D.multiply(resizeCoeff);
-        });
-    }
+    private void resizeTrackData() {
 
-    private void calcResizeCoeff() {
-        
         double minFlatX = 0.0;
         double minFlatY = 0.0;
         double maxFlatX = 0.0;
@@ -100,34 +88,47 @@ public class ORoute extends Path {
                 maxFlatY = point2D.getY();
             }
         }
+
         double routeWidth = maxFlatX - minFlatX;
         double routeHeight = maxFlatY - minFlatY;
-        if (routeWidth / routeHeight <= 0.75) {
+        final double resizeCoeff;
+
+        if (Math.min(routeWidth, routeHeight) / Math.max(routeWidth, routeHeight) <= 0.75) {
             resizeCoeff = 1024.0 / routeWidth;
         } else {
             resizeCoeff = 768.0 / routeHeight;
         }
+
+        Point2D subtractPoint = new Point2D(minFlatX, minFlatY);
+        coordFlat.forEach((Point2D point2D) -> {
+            coordFlat.set(coordFlat.indexOf(point2D), point2D.subtract(subtractPoint).multiply(resizeCoeff));
+        });
     }
 
-    private void buildPath() {
-        mapPlainCoords.forEach((Point2D point2D) -> {
-            if (mapPlainCoords.indexOf(point2D) == 0) {
-                getElements().add(new MoveTo(point2D.getX(), point2D.getY()));
+    private void buildTrackPath() {
+        coordFlat.forEach((Point2D point2D) -> {
+            if (coordFlat.indexOf(point2D) == 0) {
+                this.getElements().add(new MoveTo(point2D.getX(), point2D.getY()));
+                if (shadowTrack == null) {
+                    shadowTrack = new Path();
+                }
+                shadowTrack.getElements().add(new MoveTo(point2D.getX(), point2D.getY()));
             } else {
-                getElements().add(new LineTo(point2D.getX(), point2D.getY()));
-                setStrokeWidth(1.0);
-                setStroke(Color.RED);
-                setStrokeLineCap(StrokeLineCap.ROUND);
-//                setEffect(new DropShadow(10, Color.RED));
+                this.getElements().add(new LineTo(point2D.getX(), point2D.getY()));
+                shadowTrack.getElements().add(new LineTo(point2D.getX(), point2D.getY()));
             }
         });
+        this.setStrokeWidth(3.0);
+        this.setStroke(Color.RED);
+        this.setStrokeLineCap(StrokeLineCap.ROUND);
+        
+        shadowTrack.setStrokeWidth(20.0);
+        shadowTrack.setStroke(Color.BLUE);
+        shadowTrack.setStrokeLineCap(StrokeLineCap.ROUND);
+    }
 
-//        addEventHandler(MouseEvent.MOUSE_MOVED, (MouseEvent event) -> {
-//            Point2D point2D = getNearestPathPoint(event);
-//            if (!point2D.equals(null)) {
-//                Circle circle = new Circle(point2D.getX(), point2D.getY(), 5);
-//            }
-//        });
+    public ArrayList<Point2D> getTrackFlatCoords() {
+        return coordFlat;
     }
 
     public Circle getTrackPoint() {
@@ -148,23 +149,15 @@ public class ORoute extends Path {
         setShowTrackPoint(true);
     }
 
-//    private double getSpherDistance(Point2D point1, Point2D point2) {
-//        return EARTH_RADIUS * Math.acos(
-//                Math.sin(point1.getY()) * Math.sin(point2.getY()) * Math.cos(point1.getX() - point2.getX())
-//                + Math.cos(point1.getY()) * Math.cos(point2.getY())
-//        );
-//    }
-//    private double getPlaneDistance(Point3D point1, Point3D point2) {
-//        return EARTH_RADIUS * Math.sqrt(
-//                Math.pow(point1.getX() - point2.getX(), 2)
-//                + Math.pow(point1.getY() - point2.getY(), 2)
-//                + Math.pow(point1.getZ() - point2.getZ(), 2)
-//        );
-//    }
-//    private Point2D getNearestPathPoint(MouseEvent event) {
-//        return mapPlainCoords.stream().filter((point2D) -> {
-//            return Math.abs(point2D.getY() - event.getY()) < 5.0
-//                    && Math.abs(point2D.getX() - event.getX()) < 5.0;
-//        }).findFirst().get();
-//    }
+    private double getSphericalDistance(Point2D point1, Point2D point2) {
+        return EARTH_RADIUS * Math.acos(
+                Math.sin(point1.getY()) * Math.sin(point2.getY()) * Math.cos(point1.getX() - point2.getX())
+                + Math.cos(point1.getY()) * Math.cos(point2.getY())
+        );
+    }
+
+    public Path getShadowTrack() {
+        return shadowTrack;
+    }
+
 }

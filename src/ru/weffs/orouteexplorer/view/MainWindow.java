@@ -30,10 +30,6 @@ public class MainWindow {
     }
 
     public void open() {
-//        SceneMouseEventHandler sceneMouseEventHandler = new SceneMouseEventHandler(mainController);
-//        mainScene.addEventFilter(MouseEvent.MOUSE_MOVED, sceneMouseEventHandler.getMouseMoveEventHandler());
-//        GroupMouseEventHandler groupMouseEventHandler = new GroupMouseEventHandler(mainController);
-//        mainScene.getArtBoardZoomGroup().addEventFilter(MouseEvent.MOUSE_MOVED, groupMouseEventHandler.getMouseMoveEventHandler());
         stage.show();
         stage.requestFocus();
     }

@@ -9,15 +9,12 @@ import javafx.beans.binding.Bindings;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Path;
 import ru.weffs.orouteexplorer.controller.MainController;
-import ru.weffs.orouteexplorer.eventhandler.GroupMouseEventHandler;
 import ru.weffs.orouteexplorer.eventhandler.KeyEventHandler;
-import ru.weffs.orouteexplorer.eventhandler.MouseEventHandler;
-import ru.weffs.orouteexplorer.eventhandler.SceneMouseEventHandler;
 import ru.weffs.orouteexplorer.model.Document;
 import ru.weffs.orouteexplorer.model.GUIState;
 import ru.weffs.orouteexplorer.model.Observer;
@@ -117,12 +114,12 @@ public class MainScene extends Scene implements Observer {
 
         artBoardGroup.getChildren().clear();
         artBoardGroup.getChildren().addAll(document.getMaps());
-        artBoardGroup.getChildren().addAll(document.getRoutes());
+        artBoardGroup.getChildren().addAll(document.getPaths());
 
-        document.getRoutes().forEach(oRoute -> {
-            if (oRoute.isShowTrackPoint()) {
-                artBoardGroup.getChildren().add(oRoute.getTrackPoint());
-            }
+        document.getPaths().forEach((Path path) -> {
+//            if (oRoute.isShowTrackPoint()) {
+//                artBoardGroup.getChildren().add(oRoute.getTrackPoint());
+//            }
         });
         setZoomLevel(guiState.getZoomLevel());
     }
@@ -142,10 +139,6 @@ public class MainScene extends Scene implements Observer {
 
     public StatusBar getStatusBar() {
         return statusBar;
-    }
-
-    public Group getArtBoardZoomGroup() {
-        return artBoardZoomGroup;
     }
 
 }

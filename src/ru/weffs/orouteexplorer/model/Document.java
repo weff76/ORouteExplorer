@@ -8,6 +8,7 @@ package ru.weffs.orouteexplorer.model;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.Node;
+import javafx.scene.shape.Path;
 import ru.weffs.orouteexplorer.controller.MainController;
 import ru.weffs.orouteexplorer.model.object.Image;
 import ru.weffs.orouteexplorer.model.object.ORoute;
@@ -23,10 +24,7 @@ public class Document {
     private final List<Observer> observers;
     
     private final List<Image> maps;
-    private final List<ORoute> oroutes;
-    
-    private double width;
-    private double height;
+    private final List<Path> paths;
     
     private final boolean isSaved;
     
@@ -34,7 +32,7 @@ public class Document {
         this.mainController = mainController;
         
         maps = new ArrayList<>();
-        oroutes = new ArrayList<>();
+        paths = new ArrayList<>();
         observers = new ArrayList<>();
         
         isSaved = false;                
@@ -44,32 +42,16 @@ public class Document {
         maps.add(image);
     }
 
-    public void addRoute(ORoute oRoute) {
-        oroutes.add(oRoute);
-    }
-
-    public void setDimensions(double width, double height) {
-        this.width = width;
-        this.height = height;
-        notifyObservers();        
+    public void addPath(Path path) {
+        paths.add(path);
     }
 
     public void notifyObservers() {
         observers.forEach(Observer::update);
     }
     
-    public double getWidth() {
-        if (width == 0) width = 1024.0;
-        return width;
-    }
-            
-    public double getHeight() {
-        if (height == 0) height = 768.0;
-        return height;
-    }
-
-    public List<ORoute> getRoutes() {
-        return oroutes;
+    public List<Path> getPaths() {
+        return paths;
     }
 
     public List<Image> getMaps() {

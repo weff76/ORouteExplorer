@@ -9,11 +9,10 @@ import com.hs.gpxparser.GPXParser;
 import com.hs.gpxparser.modal.GPX;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import javafx.scene.Node;
-import ru.weffs.orouteexplorer.eventhandler.ORouteEventHandler;
+import javafx.scene.shape.Path;
 import ru.weffs.orouteexplorer.model.Document;
 import ru.weffs.orouteexplorer.model.GUIState;
 import ru.weffs.orouteexplorer.model.object.Image;
@@ -58,10 +57,6 @@ public class DocumentController {
         if (object instanceof Image) {
             document.addMap((Image) object);
         }
-
-        if (object instanceof ORoute) {
-            document.addRoute((ORoute) object);
-        }
     }
 
     public Image importImage(File file) throws IOException {
@@ -75,7 +70,6 @@ public class DocumentController {
         image.setFitHeight(img.getHeight());
 
         addObject(image);
-        setDimensions(img.getWidth(), img.getHeight());
 
         return image;
     }
@@ -85,22 +79,19 @@ public class DocumentController {
         mainScene.activateControls(true);
     }
 
-    private void setDimensions(double width, double height) {
-        document.setDimensions(width, height);
-    }
-
     ORoute importGPX(File file) throws Exception {
-
         GPXParser p = new GPXParser();
         GPX gpx = p.parseGPX(new FileInputStream(file.getPath()));
 
-        ORoute oRoute = new ORoute(gpx, document.getWidth(), document.getHeight());
-        addObject(oRoute);
-
-        ORouteEventHandler oRouteEventHandler = new ORouteEventHandler(mainController);
-        oRoute.setOnMouseMoved(oRouteEventHandler.getMouseMoveEventHandler());
+        ORoute oRoute = new ORoute(gpx);
+        addORoute(oRoute);
 
         return oRoute;
+    }
+    
+    private void addORoute(ORoute oRoute) {
+        document.addPath(oRoute.getShadowTrack());
+        document.addPath((Path)oRoute);
     }
 
 }
