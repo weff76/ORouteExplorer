@@ -30,10 +30,6 @@ public class ORoute {
         return oTrackPoint;
     }
 
-    public void showTrackPoint(double x, double y) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
     public void showOTrackPoint(double x, double y) {
         oTrackPoint.setCenterX(x);
         oTrackPoint.setCenterY(y);

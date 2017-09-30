@@ -61,8 +61,9 @@ public class DocumentController {
         oMap.setImage(img);
         oMap.setX(0);
         oMap.setY(0);
-        oMap.setFitWidth(img.getWidth());
-        oMap.setFitHeight(img.getHeight());
+        oMap.setPreserveRatio(true);
+        oMap.setFitWidth(1024.0);
+//        oMap.setFitHeight(img.getHeight());
 
         addOMap(oMap);
 
@@ -78,6 +79,7 @@ public class DocumentController {
 
         ORouteMouseEventHandler oRouteEventHandler = new ORouteMouseEventHandler(mainController);
         oRoute.getOTrack().getOTrackShadow().setOnMouseMoved(oRouteEventHandler.getMouseMoveEventHandler());
+//        oRoute.getOTrack().getOTrackShadow().setOnMouseExited(oRouteEventHandler.getMouseExitedEventHandler());
 
         mainScene.activateControls(true);
     }

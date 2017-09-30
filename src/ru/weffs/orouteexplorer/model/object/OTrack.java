@@ -68,6 +68,11 @@ public class OTrack extends Path {
                     });
                 });
             });
+
+//            coordFlat.clear();
+//            for(int i = 100; i<201; i++) {
+//                coordFlat.add(new Point2D(i, 100));
+//            }
             resizeTrackData();
             buildTrackPath();
         }
@@ -124,7 +129,7 @@ public class OTrack extends Path {
                 this.getElements().add(new LineTo(point2D.getX(), point2D.getY()));
             }
         });
-        this.setStrokeWidth(3.0);
+        this.setStrokeWidth(2.0);
         this.setStroke(Color.BLUE);
         this.setStrokeLineCap(StrokeLineCap.ROUND);
         

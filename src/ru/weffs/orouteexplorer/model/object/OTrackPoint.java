@@ -17,7 +17,7 @@ public class OTrackPoint extends Circle {
     private final ORoute oRoute;
     
     public OTrackPoint(ORoute oRoute) {
-        super(5.0, Color.TRANSPARENT);
+        super(3.0, Color.TRANSPARENT);
         
         this.oRoute = oRoute;
     }
