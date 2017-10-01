@@ -22,29 +22,28 @@ import javafx.scene.shape.StrokeLineCap;
  * @author dilobachev
  */
 public class OTrack extends Path {
- 
-//    private static final double EARTH_RADIUS = 6371;
 
+//    private static final double EARTH_RADIUS = 6371;
     private final ORoute oRoute;
-    
+
     private ArrayList<Point2D> coordSpherical;
     private ArrayList<Point2D> coordFlat;
 
     private OTrack shadowTrack;
-    
+
     public OTrack(ORoute oRoute) {
         super();
-        
+
         this.oRoute = oRoute;
     }
-    
+
     public OTrack(ORoute oRoute, GPX gpx) {
         super();
-        
+
         this.oRoute = oRoute;
-        
+
         shadowTrack = new OTrack(oRoute);
-        
+
         coordSpherical = new ArrayList<>();
         coordFlat = new ArrayList<>();
 
@@ -69,10 +68,6 @@ public class OTrack extends Path {
                 });
             });
 
-//            coordFlat.clear();
-//            for(int i = 100; i<201; i++) {
-//                coordFlat.add(new Point2D(i, 100));
-//            }
             resizeTrackData();
             buildTrackPath();
         }
@@ -105,10 +100,10 @@ public class OTrack extends Path {
         double routeWidth = maxFlatX - minFlatX;
         double routeHeight = maxFlatY - minFlatY;
 
-        if (routeWidth <= routeHeight ) {
+        if (routeWidth <= routeHeight) {
             resizeCoeff = 768.0 / routeHeight;
         } else {
-            if ( routeWidth / routeHeight <= 0.75 ) {
+            if (routeWidth / routeHeight <= 0.75) {
                 resizeCoeff = 1024.0 / routeWidth;
             } else {
                 resizeCoeff = 768.0 / routeHeight;
@@ -130,11 +125,13 @@ public class OTrack extends Path {
             }
         });
         this.setStrokeWidth(2.0);
-        this.setStroke(Color.BLUE);
+        this.setStroke(Color.RED);
+        this.setOpacity(0.5);
         this.setStrokeLineCap(StrokeLineCap.ROUND);
-        
+        this.setMouseTransparent(true);
+
         shadowTrack.getElements().addAll(this.getElements());
-        shadowTrack.setStrokeWidth(20.0);
+        shadowTrack.setStrokeWidth(25.0);
         shadowTrack.setStroke(Color.TRANSPARENT);
         shadowTrack.setStrokeLineCap(StrokeLineCap.ROUND);
     }
@@ -145,7 +142,6 @@ public class OTrack extends Path {
 //                + Math.cos(point1.getY()) * Math.cos(point2.getY())
 //        );
 //    }
-    
     public ArrayList<Point2D> getTrackFlatCoords() {
         return coordFlat;
     }
@@ -157,8 +153,9 @@ public class OTrack extends Path {
     public ORoute getORoute() {
         return oRoute;
     }
-    
+
     public OTrack getOTrackShadow() {
         return shadowTrack;
     }
+
 }

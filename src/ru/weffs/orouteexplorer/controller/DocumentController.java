@@ -79,7 +79,8 @@ public class DocumentController {
 
         ORouteMouseEventHandler oRouteEventHandler = new ORouteMouseEventHandler(mainController);
         oRoute.getOTrack().getOTrackShadow().setOnMouseMoved(oRouteEventHandler.getMouseMoveEventHandler());
-//        oRoute.getOTrack().getOTrackShadow().setOnMouseExited(oRouteEventHandler.getMouseExitedEventHandler());
+        oRoute.getOTrack().getOTrackShadow().setOnMousePressed(oRouteEventHandler.getMousePressedEventHandler());
+        oRoute.getOTrack().getOTrackShadow().setOnMouseReleased(oRouteEventHandler.getMouseReleasedEventHandler());
 
         mainScene.activateControls(true);
     }

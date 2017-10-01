@@ -37,6 +37,19 @@ public abstract class MouseEventHandler {
         };
     };
     
+    public EventHandler<MouseEvent> getMouseDraggedEventHandler() {
+        return event -> {
+            int x = (int) event.getX();
+            int y = (int) event.getY();
+
+            mainScene.getStatusBar().setCoordinatesLabel(x, y);
+        };
+    }
+
+    public abstract EventHandler<MouseEvent> getMousePressedEventHandler();
+    
+    public abstract EventHandler<MouseEvent> getMouseReleasedEventHandler();
+    
     public abstract EventHandler<MouseEvent> getMouseExitedEventHandler();
 
 }

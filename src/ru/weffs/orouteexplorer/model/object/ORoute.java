@@ -6,6 +6,8 @@
 package ru.weffs.orouteexplorer.model.object;
 
 import com.hs.gpxparser.modal.GPX;
+import java.util.ArrayList;
+import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 
 /**
@@ -15,29 +17,65 @@ import javafx.scene.paint.Color;
 public class ORoute {
 
     private final OTrack oTrack;
-    private final OTrackPoint oTrackPoint;
+    private final OTrackPointer oTrackPointer;
+    private final OBindingPointer oBindingPointer;
+    private final ArrayList<Point2D> bindingPoints;
+    private final ArrayList<Point2D> splitPoints;
+
+    private boolean modeTrackBinding;
 
     public ORoute(GPX gpx) {
         oTrack = new OTrack(this, gpx);
-        oTrackPoint = new OTrackPoint(this);
+        oTrackPointer = new OTrackPointer(this);
+        oBindingPointer = new OBindingPointer(this);
+        bindingPoints = new ArrayList<>();
+        splitPoints = new ArrayList<>();
     }
 
     public OTrack getOTrack() {
         return oTrack;
     }
+
+    public OTrackPointer getOTrackPointer() {
+        return oTrackPointer;
+    }
+
+    public void setOTrackPointer(double x, double y) {
+        oTrackPointer.setCenterX(x);
+        oTrackPointer.setCenterY(y);
+        oTrackPointer.setFill(Color.RED);
+    }
+
+    public void hideOTrackPointer() {
+        oTrackPointer.setFill(Color.TRANSPARENT);
+    }
+
+    public OBindingPointer getOBindingPointer() {
+        return oBindingPointer;
+    }
+
+    public void setOBindingPointer(double x, double y) {
+        oBindingPointer.setCenterX(x);
+        oBindingPointer.setCenterY(y);
+        oBindingPointer.setStroke(Color.BLUE);
+    }
+
+    public void hideOBindingPointer() {
+        oBindingPointer.setStroke(Color.TRANSPARENT);
+    }
+
+    public void setModeTrackBinding(double x, double y) {
+        modeTrackBinding = true;
+        hideOTrackPointer();
+        setOBindingPointer(x, y);
+    }
     
-    public OTrackPoint getOTrackPoint() {
-        return oTrackPoint;
+    public boolean isModeTrackBinding() {
+        return modeTrackBinding;
     }
 
-    public void showOTrackPoint(double x, double y) {
-        oTrackPoint.setCenterX(x);
-        oTrackPoint.setCenterY(y);
-        oTrackPoint.setFill(Color.RED);
+    public void doTrackBinding(double deltaX, double deltaY) {
+        hideOBindingPointer();
+        modeTrackBinding = false;
     }
-
-    public void hideOTrackPoint() {
-        oTrackPoint.setFill(Color.TRANSPARENT);
-    }
-
 }

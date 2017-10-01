@@ -57,7 +57,7 @@ public class MainScene extends Scene implements Observer {
 
         artBoardZoomGroup = new Group(artBoardGroup);
         artBoardZoomGroup.getStyleClass().add("no-focus-outline");
-        
+
         StackPane stackPane = new StackPane(artBoardZoomGroup);
 //        StackPane stackPane = new StackPane(artBoardGroup);
         stackPane.getStyleClass().add("no-focus-outline");
@@ -77,7 +77,7 @@ public class MainScene extends Scene implements Observer {
 
         statusBar = new StatusBar(this.mainController);
         mainBorderPane.setBottom(statusBar);
-        
+
         setRoot(mainBorderPane);
     }
 
@@ -100,9 +100,10 @@ public class MainScene extends Scene implements Observer {
         artBoardGroup.getChildren().clear();
         artBoardGroup.getChildren().addAll(document.getOMaps());
         document.getORoutes().forEach((ORoute oRoute) -> {
-            artBoardGroup.getChildren().add(oRoute.getOTrack());
             artBoardGroup.getChildren().add(oRoute.getOTrack().getOTrackShadow());
-            artBoardGroup.getChildren().add(oRoute.getOTrackPoint());
+            artBoardGroup.getChildren().add(oRoute.getOTrack());
+            artBoardGroup.getChildren().add(oRoute.getOTrackPointer());
+            artBoardGroup.getChildren().add(oRoute.getOBindingPointer());
         });
 
         setZoomLevel(guiState.getZoomLevel());

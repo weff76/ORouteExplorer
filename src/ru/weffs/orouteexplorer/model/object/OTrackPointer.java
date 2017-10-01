@@ -12,13 +12,14 @@ import javafx.scene.shape.Circle;
  *
  * @author dilobachev
  */
-public class OTrackPoint extends Circle {
+public class OTrackPointer extends Circle {
  
     private final ORoute oRoute;
     
-    public OTrackPoint(ORoute oRoute) {
+    public OTrackPointer(ORoute oRoute) {
         super(3.0, Color.TRANSPARENT);
         
+        setMouseTransparent(true);
         this.oRoute = oRoute;
     }
     
