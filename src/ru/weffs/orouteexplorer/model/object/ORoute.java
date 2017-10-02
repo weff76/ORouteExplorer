@@ -7,7 +7,6 @@ package ru.weffs.orouteexplorer.model.object;
 
 import com.hs.gpxparser.modal.GPX;
 import java.util.ArrayList;
-import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 
 /**
@@ -19,8 +18,7 @@ public class ORoute {
     private final OTrack oTrack;
     private final OTrackPointer oTrackPointer;
     private final OBindingPointer oBindingPointer;
-    private final ArrayList<Point2D> bindingPoints;
-    private final ArrayList<Point2D> splitPoints;
+    private final ArrayList<OBinding> oBindings;
 
     private boolean modeTrackBinding;
 
@@ -28,8 +26,7 @@ public class ORoute {
         oTrack = new OTrack(this, gpx);
         oTrackPointer = new OTrackPointer(this);
         oBindingPointer = new OBindingPointer(this);
-        bindingPoints = new ArrayList<>();
-        splitPoints = new ArrayList<>();
+        oBindings = new ArrayList<>();
     }
 
     public OTrack getOTrack() {
@@ -69,13 +66,22 @@ public class ORoute {
         hideOTrackPointer();
         setOBindingPointer(x, y);
     }
-    
+
     public boolean isModeTrackBinding() {
         return modeTrackBinding;
     }
 
-    public void doTrackBinding(double deltaX, double deltaY) {
+    public void doTrackBinding(int index, double deltaX, double deltaY) {
+        // Simple move
+        if (oBindings.isEmpty()) {
+            oTrack.moveTrack(index, deltaX, deltaY);
+            oBindings.add(new OBinding(this, index));
+        }
         hideOBindingPointer();
         modeTrackBinding = false;
+    }
+    
+    public ArrayList<OBinding> getOBindings() {
+        return oBindings;
     }
 }

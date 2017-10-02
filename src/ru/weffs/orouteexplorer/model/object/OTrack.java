@@ -69,7 +69,8 @@ public class OTrack extends Path {
             });
 
             resizeTrackData();
-            buildTrackPath();
+            drawTrackPath();
+            setTrackPath();
         }
     }
 
@@ -116,7 +117,8 @@ public class OTrack extends Path {
         });
     }
 
-    private void buildTrackPath() {
+    private void drawTrackPath() {
+        this.getElements().clear();
         coordFlat.forEach((Point2D point2D) -> {
             if (coordFlat.indexOf(point2D) == 0) {
                 this.getElements().add(new MoveTo(point2D.getX(), point2D.getY()));
@@ -124,18 +126,22 @@ public class OTrack extends Path {
                 this.getElements().add(new LineTo(point2D.getX(), point2D.getY()));
             }
         });
+        shadowTrack.getElements().clear();
+        shadowTrack.getElements().addAll(this.getElements());
+    }
+
+    private void setTrackPath() {
         this.setStrokeWidth(2.0);
         this.setStroke(Color.RED);
         this.setOpacity(0.5);
         this.setStrokeLineCap(StrokeLineCap.ROUND);
         this.setMouseTransparent(true);
 
-        shadowTrack.getElements().addAll(this.getElements());
         shadowTrack.setStrokeWidth(25.0);
         shadowTrack.setStroke(Color.TRANSPARENT);
         shadowTrack.setStrokeLineCap(StrokeLineCap.ROUND);
     }
-
+    
 //    private double getSphericalDistance(Point2D point1, Point2D point2) {
 //        return EARTH_RADIUS * Math.acos(
 //                Math.sin(point1.getY()) * Math.sin(point2.getY()) * Math.cos(point1.getX() - point2.getX())
@@ -156,6 +162,15 @@ public class OTrack extends Path {
 
     public OTrack getOTrackShadow() {
         return shadowTrack;
+    }
+
+    void moveTrack(int index, double deltaX, double deltaY) {
+        Point2D delta = new Point2D(deltaX, deltaY);
+        coordFlat.forEach((Point2D point2D) -> {
+            coordFlat.set(coordFlat.indexOf(point2D), point2D.add(delta));
+        });
+        
+        drawTrackPath();
     }
 
 }

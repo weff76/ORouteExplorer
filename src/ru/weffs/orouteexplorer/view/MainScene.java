@@ -17,6 +17,7 @@ import ru.weffs.orouteexplorer.eventhandler.KeyEventHandler;
 import ru.weffs.orouteexplorer.model.Document;
 import ru.weffs.orouteexplorer.model.GUIState;
 import ru.weffs.orouteexplorer.model.Observer;
+import ru.weffs.orouteexplorer.model.object.OBinding;
 import ru.weffs.orouteexplorer.model.object.ORoute;
 
 /**
@@ -104,6 +105,7 @@ public class MainScene extends Scene implements Observer {
             artBoardGroup.getChildren().add(oRoute.getOTrack());
             artBoardGroup.getChildren().add(oRoute.getOTrackPointer());
             artBoardGroup.getChildren().add(oRoute.getOBindingPointer());
+            artBoardGroup.getChildren().addAll(oRoute.getOBindings());
         });
 
         setZoomLevel(guiState.getZoomLevel());
