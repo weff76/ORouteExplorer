@@ -40,6 +40,7 @@ public class OBinding extends Circle {
         this.setCenterX(x);
         this.setCenterY(y);
         
+        shadowBinding = new OBinding(oRoute);
         shadowBinding.setCenterX(x);
         shadowBinding.setCenterY(y);
         shadowBinding.setStrokeWidth(20.0);
