@@ -90,7 +90,7 @@ public class ORouteMouseEventHandler extends MouseEventHandler {
     public EventHandler<MouseEvent> getMouseReleasedEventHandler() {
         return (MouseEvent event) -> {
             if (oRoute.isModeTrackBinding()) {
-                oRoute.doTrackBinding(index, (event.getX()- (origPointX + deltaX)), (event.getY()- (origPointY + deltaY)));
+                oRoute.doTrackBinding(index, (event.getX() - (origPointX + deltaX)), (event.getY() - (origPointY + deltaY)));
                 document.notifyObservers();
             }
         };
@@ -99,6 +99,16 @@ public class ORouteMouseEventHandler extends MouseEventHandler {
     @Override
     public EventHandler<MouseEvent> getMouseExitedEventHandler() {
         return null;
+    }
+
+    @Override
+    public EventHandler<MouseEvent> getMouseDraggedEventHandler() {
+        return ((MouseEvent event) -> {
+            if (oRoute.isModeTrackBinding() && event.isPrimaryButtonDown()) {
+                oRoute.doTrackDragging(index, (event.getX() - (origPointX + deltaX)), (event.getY() - (origPointY + deltaY)));
+                document.notifyObservers();
+            }
+        });
     }
 
 }

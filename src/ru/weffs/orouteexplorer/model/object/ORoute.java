@@ -84,4 +84,8 @@ public class ORoute {
     public ArrayList<OBinding> getOBindings() {
         return oBindings;
     }
+
+    public void doTrackDragging(int index, double deltaX, double deltaY) {
+        oTrack.moveTrack(index, deltaX, deltaY);        
+    }
 }
