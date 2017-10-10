@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
  */
 public class ORoute {
 
-    private final OTrack oTrack;
+//    private final OTrack oTrack;
     private final OTrackPointer oTrackPointer;
     private final OBindingPointer oBindingPointer;
     private final ArrayList<OBinding> oBindings;
@@ -23,15 +23,15 @@ public class ORoute {
     private boolean modeTrackBinding;
 
     public ORoute(GPX gpx) {
-        oTrack = new OTrack(this, gpx);
+//        oTrack = new OTrack(this, gpx);
         oTrackPointer = new OTrackPointer(this);
         oBindingPointer = new OBindingPointer(this);
         oBindings = new ArrayList<>();
     }
 
-    public OTrack getOTrack() {
-        return oTrack;
-    }
+//    public OTrack getOTrack() {
+//        return oTrack;
+//    }
 
     public OTrackPointer getOTrackPointer() {
         return oTrackPointer;
@@ -74,7 +74,7 @@ public class ORoute {
     public void doTrackBinding(int index, double deltaX, double deltaY) {
         // Simple move
         if (oBindings.isEmpty()) {
-            oTrack.moveTrack(index, deltaX, deltaY);
+//            oTrack.moveTrack(index, deltaX, deltaY);
             oBindings.add(new OBinding(this, index));
         }
         hideOBindingPointer();
@@ -85,7 +85,7 @@ public class ORoute {
         return oBindings;
     }
 
-    public void doTrackDragging(int index, double deltaX, double deltaY) {
-        oTrack.moveTrack(index, deltaX, deltaY);        
-    }
+//    public void doTrackDragging(int index, double deltaX, double deltaY) {
+//        oTrack.moveTrack(index, deltaX, deltaY);        
+//    }
 }

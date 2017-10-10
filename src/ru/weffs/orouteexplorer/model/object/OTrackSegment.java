@@ -5,7 +5,13 @@
  */
 package ru.weffs.orouteexplorer.model.object;
 
+import java.util.ArrayList;
+import javafx.geometry.Point2D;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
+import javafx.scene.shape.StrokeLineCap;
 
 /**
  *
@@ -14,24 +20,51 @@ import javafx.scene.shape.Path;
 public class OTrackSegment extends Path {
 
     private final OTrack oTrack;
+
     private final int fromIndex;
-    private final int size;
+    private final int toIndex;
 
-    public OTrackSegment(OTrack oTrack, int fromIndex, int size) {
+    private Point2D pivotPoint;
+    private double rotateAngle;
+
+    private Point2D translatePoint;
+
+    private boolean isChanged;
+
+    public OTrackSegment(OTrack oTrack, int fromIndex, int toIndex) {
+        super();
+
         this.oTrack = oTrack;
+
         this.fromIndex = fromIndex;
-        this.size = size;
+        this.toIndex = toIndex;
+
+        this.rotateAngle = 0.0;
+        this.translatePoint = new Point2D(0.0, 0.0);
+
+        // Setup path
+        this.setStrokeWidth(2.0);
+        this.setStroke(Color.BLUE);
+        this.setOpacity(0.75);
+        this.setStrokeLineCap(StrokeLineCap.ROUND);
+        
+        isChanged = true;
     }
 
-    public OTrack getOTrack() {
-        return oTrack;
+    public OTrackSegment getPathSegment() {
+        if (isChanged) {
+            ArrayList<Point2D> coordFlat = oTrack.getCoordFlat();
+
+            this.getElements().clear();
+            for (int i = fromIndex; i <= toIndex; i++) {
+                if (i == fromIndex) {
+                    this.getElements().add(new MoveTo(coordFlat.get(i).getX(), coordFlat.get(i).getY()));
+                } else {
+                    this.getElements().add(new LineTo(coordFlat.get(i).getX(), coordFlat.get(i).getY()));
+                }
+            }
+        }
+        return this;
     }
-    
-    private void setPath() {
-        this.getElements().clear();
-        this.getElements().addAll(
-                oTrack.getOTrackData().getPathSegment(fromIndex, size).getElements()
-        );
-    }
-    
+
 }

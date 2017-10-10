@@ -34,8 +34,8 @@ public class OBinding extends Circle {
         this.oRoute = oRoute;
         this.index = index;
         
-        x = oRoute.getOTrack().getTrackFlatCoords().get(index).getX();
-        y = oRoute.getOTrack().getTrackFlatCoords().get(index).getY();
+//        x = oRoute.getOTrack().getTrackFlatCoords().get(index).getX();
+//        y = oRoute.getOTrack().getTrackFlatCoords().get(index).getY();
         
         this.setCenterX(x);
         this.setCenterY(y);
