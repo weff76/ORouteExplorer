@@ -10,6 +10,7 @@ import java.util.List;
 import ru.weffs.orouteexplorer.controller.MainController;
 import ru.weffs.orouteexplorer.model.object.OMap;
 import ru.weffs.orouteexplorer.model.object.ORoute;
+import ru.weffs.orouteexplorer.model.object.OTrack;
 
 /**
  *
@@ -23,6 +24,7 @@ public class Document {
     
     private final List<OMap> oMaps;
     private final List<ORoute> oRoutes;
+    private final ArrayList<OTrack> oTracks;
     
     private final boolean isSaved;
     
@@ -31,12 +33,23 @@ public class Document {
         
         oMaps = new ArrayList<>();
         oRoutes = new ArrayList<>();
+        oTracks = new ArrayList<>();
 
         observers = new ArrayList<>();
         
         isSaved = false;                
     }
 
+    public void addOTrack(OTrack oTrack) {
+        oTrack.setEvents(mainController);
+        oTracks.add(oTrack);
+        notifyObservers();
+    }
+    
+    public  ArrayList<OTrack> getOTracks() {
+        return oTracks;
+    }
+    
     public void addOMap(OMap oMap) {
         oMaps.add(oMap);
         notifyObservers();
@@ -58,6 +71,7 @@ public class Document {
     public List<OMap> getOMaps() {
         return oMaps;
     }
+    
 
     public void registerObserver(Observer observer) {
         observers.add(observer);

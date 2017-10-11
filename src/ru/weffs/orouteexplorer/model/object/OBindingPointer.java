@@ -14,13 +14,17 @@ import javafx.scene.shape.Circle;
  */
 public class OBindingPointer extends Circle {
  
-    private final ORoute oRoute;
+    private final OTrack oTrack;
     
-    public OBindingPointer(ORoute oRoute) {
-        super(6.0, Color.TRANSPARENT);
+    public OBindingPointer(OTrack oTrack) {
+        super(7.0, Color.TRANSPARENT);
         
         setMouseTransparent(true);
-        this.oRoute = oRoute;
+        this.oTrack = oTrack;
     }
     
+    public OTrack getOTrack() {
+        return oTrack;
+    }
+            
 }

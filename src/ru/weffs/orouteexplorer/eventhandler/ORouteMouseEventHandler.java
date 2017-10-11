@@ -79,20 +79,20 @@ public class ORouteMouseEventHandler extends MouseEventHandler {
     @Override
     public EventHandler<MouseEvent> getMousePressedEventHandler() {
         return (MouseEvent event) -> {
-            if (event.isPrimaryButtonDown() && pointerOverTrack) {
-                oRoute.setModeTrackBinding(origPointX, origPointY);
-                document.notifyObservers();
-            }
+//            if (event.isPrimaryButtonDown() && pointerOverTrack) {
+//                oRoute.setModeTrackBinding(origPointX, origPointY);
+//                document.notifyObservers();
+//            }
         };
     }
 
     @Override
     public EventHandler<MouseEvent> getMouseReleasedEventHandler() {
         return (MouseEvent event) -> {
-            if (oRoute.isModeTrackBinding()) {
-                oRoute.doTrackBinding(index, (event.getX() - (origPointX + deltaX)), (event.getY() - (origPointY + deltaY)));
-                document.notifyObservers();
-            }
+//            if (oRoute.isModeTrackBinding()) {
+//                oRoute.doTrackBinding(index, (event.getX() - (origPointX + deltaX)), (event.getY() - (origPointY + deltaY)));
+//                document.notifyObservers();
+//            }
         };
     }
 

@@ -16,16 +16,16 @@ import javafx.scene.paint.Color;
 public class ORoute {
 
 //    private final OTrack oTrack;
-    private final OTrackPointer oTrackPointer;
-    private final OBindingPointer oBindingPointer;
+//    private final OTrackPointer oTrackPointer;
+//    private final OBindingPointer oBindingPointer;
     private final ArrayList<OBinding> oBindings;
 
     private boolean modeTrackBinding;
 
     public ORoute(GPX gpx) {
 //        oTrack = new OTrack(this, gpx);
-        oTrackPointer = new OTrackPointer(this);
-        oBindingPointer = new OBindingPointer(this);
+//        oTrackPointer = new OTrackPointer(this);
+//        oBindingPointer = new OBindingPointer(this);
         oBindings = new ArrayList<>();
     }
 
@@ -33,53 +33,53 @@ public class ORoute {
 //        return oTrack;
 //    }
 
-    public OTrackPointer getOTrackPointer() {
-        return oTrackPointer;
-    }
+//    public OTrackPointer getOTrackPointer() {
+//        return oTrackPointer;
+//    }
+//
+//    public void setOTrackPointer(double x, double y) {
+//        oTrackPointer.setCenterX(x);
+//        oTrackPointer.setCenterY(y);
+//        oTrackPointer.setFill(Color.RED);
+//    }
+//
+//    public void hideOTrackPointer() {
+//        oTrackPointer.setFill(Color.TRANSPARENT);
+//    }
 
-    public void setOTrackPointer(double x, double y) {
-        oTrackPointer.setCenterX(x);
-        oTrackPointer.setCenterY(y);
-        oTrackPointer.setFill(Color.RED);
-    }
+//    public OBindingPointer getOBindingPointer() {
+//        return oBindingPointer;
+//    }
+//
+//    public void setOBindingPointer(double x, double y) {
+//        oBindingPointer.setCenterX(x);
+//        oBindingPointer.setCenterY(y);
+//        oBindingPointer.setStroke(Color.BLUE);
+//    }
+//
+//    public void hideOBindingPointer() {
+//        oBindingPointer.setStroke(Color.TRANSPARENT);
+//    }
 
-    public void hideOTrackPointer() {
-        oTrackPointer.setFill(Color.TRANSPARENT);
-    }
-
-    public OBindingPointer getOBindingPointer() {
-        return oBindingPointer;
-    }
-
-    public void setOBindingPointer(double x, double y) {
-        oBindingPointer.setCenterX(x);
-        oBindingPointer.setCenterY(y);
-        oBindingPointer.setStroke(Color.BLUE);
-    }
-
-    public void hideOBindingPointer() {
-        oBindingPointer.setStroke(Color.TRANSPARENT);
-    }
-
-    public void setModeTrackBinding(double x, double y) {
-        modeTrackBinding = true;
-        hideOTrackPointer();
-        setOBindingPointer(x, y);
-    }
+//    public void setModeTrackBinding(double x, double y) {
+//        modeTrackBinding = true;
+////        hideOTrackPointer();
+//        setOBindingPointer(x, y);
+//    }
 
     public boolean isModeTrackBinding() {
         return modeTrackBinding;
     }
 
-    public void doTrackBinding(int index, double deltaX, double deltaY) {
-        // Simple move
-        if (oBindings.isEmpty()) {
-//            oTrack.moveTrack(index, deltaX, deltaY);
-            oBindings.add(new OBinding(this, index));
-        }
-        hideOBindingPointer();
-        modeTrackBinding = false;
-    }
+//    public void doTrackBinding(int index, double deltaX, double deltaY) {
+//        // Simple move
+//        if (oBindings.isEmpty()) {
+////            oTrack.moveTrack(index, deltaX, deltaY);
+//            oBindings.add(new OBinding(this, index));
+//        }
+//        hideOBindingPointer();
+//        modeTrackBinding = false;
+//    }
     
     public ArrayList<OBinding> getOBindings() {
         return oBindings;

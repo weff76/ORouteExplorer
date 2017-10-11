@@ -19,6 +19,7 @@ import ru.weffs.orouteexplorer.model.GUIState;
 import ru.weffs.orouteexplorer.model.Observer;
 import ru.weffs.orouteexplorer.model.object.OBinding;
 import ru.weffs.orouteexplorer.model.object.ORoute;
+import ru.weffs.orouteexplorer.model.object.OTrack;
 
 /**
  *
@@ -100,6 +101,11 @@ public class MainScene extends Scene implements Observer {
 
         artBoardGroup.getChildren().clear();
         artBoardGroup.getChildren().addAll(document.getOMaps());
+        document.getOTracks().forEach((OTrack oTrack) -> {
+            artBoardGroup.getChildren().addAll(oTrack.getOTrackSegments());
+            artBoardGroup.getChildren().addAll(oTrack.getOShadowSegments());
+            artBoardGroup.getChildren().add(oTrack.getOTrackPointer());
+        });
 //        document.getORoutes().forEach((ORoute oRoute) -> {
 //            artBoardGroup.getChildren().add(oRoute.getOTrack().getOTrackShadow());
 //            artBoardGroup.getChildren().add(oRoute.getOTrack());

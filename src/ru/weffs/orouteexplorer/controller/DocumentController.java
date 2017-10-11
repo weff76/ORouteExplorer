@@ -12,11 +12,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import javafx.scene.image.Image;
-import ru.weffs.orouteexplorer.eventhandler.ORouteMouseEventHandler;
 import ru.weffs.orouteexplorer.model.Document;
 import ru.weffs.orouteexplorer.model.GUIState;
 import ru.weffs.orouteexplorer.model.object.OMap;
 import ru.weffs.orouteexplorer.model.object.ORoute;
+import ru.weffs.orouteexplorer.model.object.OTrack;
 import ru.weffs.orouteexplorer.view.MainScene;
 
 /**
@@ -74,14 +74,7 @@ public class DocumentController {
         GPXParser p = new GPXParser();
         GPX gpx = p.parseGPX(new FileInputStream(file.getPath()));
 
-        ORoute oRoute = new ORoute(gpx);
-        addORoute(oRoute);
-
-//        ORouteMouseEventHandler oRouteEventHandler = new ORouteMouseEventHandler(mainController);
-//        oRoute.getOTrack().getOTrackShadow().setOnMouseMoved(oRouteEventHandler.getMouseMoveEventHandler());
-//        oRoute.getOTrack().getOTrackShadow().setOnMousePressed(oRouteEventHandler.getMousePressedEventHandler());
-//        oRoute.getOTrack().getOTrackShadow().setOnMouseReleased(oRouteEventHandler.getMouseReleasedEventHandler());
-//        oRoute.getOTrack().getOTrackShadow().setOnMouseDragged(oRouteEventHandler.getMouseDraggedEventHandler());
+        document.addOTrack(new OTrack(gpx));
 
         mainScene.activateControls(true);
     }
