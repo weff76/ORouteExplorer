@@ -50,6 +50,9 @@ public class OTrack {
             oTrackSegments.add(newSegment);
             oShadowSegments.add(newSegment.getOShadowSegment());
         } else {
+            newSegment.setBindLeft(true);
+            newSegment.setPivotPoint(coordFlat.get(fromIndex));
+            
             int index = oTrackSegments.indexOf(sourceSegment) + 1;
             oTrackSegments.add(index, newSegment);
             oShadowSegments.add(index, newSegment.getOShadowSegment());
@@ -57,6 +60,9 @@ public class OTrack {
         }
     }
 
+    public void processBinding(OTrackSegment segmentLeft) {
+    }
+    
     private void setTrackData(GPX gpx) {
         if (!gpx.getTracks().isEmpty()) {
             gpx.getTracks().forEach((Track track) -> {
@@ -138,8 +144,7 @@ public class OTrack {
         oShadowSegments.forEach((OShadowSegment oShadowSegment) -> {
             oShadowSegment.setOnMouseMoved(oTrackSegmentMEHandler.getMouseMoveEventHandler());
             oShadowSegment.setOnMousePressed(oTrackSegmentMEHandler.getMousePressedEventHandler());
-//        oRoute.getOTrack().getOTrackShadow().setOnMouseMoved(oRouteEventHandler.getMouseMoveEventHandler());
-//        oRoute.getOTrack().getOTrackShadow().setOnMouseReleased(oRouteEventHandler.getMouseReleasedEventHandler());
+            oShadowSegment.setOnMouseReleased(oTrackSegmentMEHandler.getMouseReleasedEventHandler());
 //        oRoute.getOTrack().getOTrackShadow().setOnMouseDragged(oRouteEventHandler.getMouseDraggedEventHandler());
 
         });
@@ -148,6 +153,7 @@ public class OTrack {
     private void copyEvents(OShadowSegment source, OShadowSegment target) {
         target.setOnMouseMoved(source.getOnMouseMoved());
         target.setOnMousePressed(source.getOnMousePressed());
+        target.setOnMouseReleased(source.getOnMouseReleased());
     }
 
     public OTrackPointer getOTrackPointer() {
@@ -194,4 +200,5 @@ public class OTrack {
 //                + Math.cos(point1.getY()) * Math.cos(point2.getY())
 //        );
 //    }
+
 }

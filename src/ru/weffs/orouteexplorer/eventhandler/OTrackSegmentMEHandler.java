@@ -22,6 +22,7 @@ public class OTrackSegmentMEHandler extends MouseEventHandler {
     private double origPointX = 0.0;
     private double origPointY = 0.0;
     private int index = -1;
+    
 //    private double deltaX;
 //    private double deltaY;
 //
@@ -59,6 +60,8 @@ public class OTrackSegmentMEHandler extends MouseEventHandler {
         return (MouseEvent event) -> {
             if (event.isPrimaryButtonDown() && index != -1) {
                 oTrackSegment.addBinding(index);
+                oTrackSegment.getOTrack().hideOTrackPointer();
+                oTrackSegment.getOTrack().setOBindingPointer(origPointX, origPointY);
                 document.notifyObservers();
             }
         };
@@ -66,7 +69,17 @@ public class OTrackSegmentMEHandler extends MouseEventHandler {
 
     @Override
     public EventHandler<MouseEvent> getMouseReleasedEventHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return (MouseEvent event) -> {
+            oTrackSegment.getOTrack().processBinding(oTrackSegment);
+//            int leftIndex = oTrackSegment.getOTrack().getOTrackSegments().indexOf(oTrackSegment);
+//            OTrackSegment rightSegment = 
+//            oTrackSegment.processBindingRight();
+            oTrackSegment.getOTrack().hideOBindingPointer();
+//            if (oRoute.isModeTrackBinding()) {
+//                oRoute.doTrackBinding(index, (event.getX() - (origPointX + deltaX)), (event.getY() - (origPointY + deltaY)));
+//                document.notifyObservers();
+//            }
+        };
     }
 
     @Override

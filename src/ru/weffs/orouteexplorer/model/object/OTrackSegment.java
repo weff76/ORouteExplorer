@@ -26,6 +26,9 @@ public class OTrackSegment extends Path {
     private int fromIndex;
     private int toIndex;
 
+    private boolean bindLeft = false;
+    private boolean bindRight = false;
+
     private Point2D pivotPoint;
     private double rotateAngle;
 
@@ -39,10 +42,27 @@ public class OTrackSegment extends Path {
         this.fromIndex = fromIndex;
         this.toIndex = toIndex;
 
+        this.pivotPoint = new Point2D(0.0, 0.0);
         this.rotateAngle = 0.0;
+
         this.translatePoint = new Point2D(0.0, 0.0);
 
         setPath();
+    }
+
+    public void addBinding(int index) {
+        if (fromIndex < index) {
+            oTrack.setNewTrackSegment(this, index, toIndex);
+
+            toIndex = index;
+            setBindRight(true);
+            setPivotPoint(oTrack.getCoordFlat().get(index));
+            setPath();
+        }
+    }
+
+    public void processBindingRight() {
+        
     }
 
     private void setPath() {
@@ -103,8 +123,16 @@ public class OTrackSegment extends Path {
         return pivotPoint;
     }
 
+    public final void setPivotPoint(Point2D point) {
+        pivotPoint = point;
+    }
+
     public Point2D getTranslatePoint() {
         return translatePoint;
+    }
+
+    public final void setTranslatePoint(Point2D point) {
+        translatePoint = point;
     }
 
     public OShadowSegment getOShadowSegment() {
@@ -115,12 +143,20 @@ public class OTrackSegment extends Path {
         return oTrack;
     }
 
-    public void addBinding(int index) {
-        if (fromIndex < index) {
-            oTrack.setNewTrackSegment(this, index, toIndex);
-            toIndex = index;
-            setPath();
-        }
+    public boolean getBindLeft() {
+        return bindLeft;
+    }
+
+    public final void setBindLeft(boolean state) {
+        bindLeft = state;
+    }
+
+    public boolean getBindRight() {
+        return bindRight;
+    }
+
+    public final void setBindRight(boolean state) {
+        bindRight = state;
     }
 
 }

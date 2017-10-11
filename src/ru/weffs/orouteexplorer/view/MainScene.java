@@ -105,12 +105,9 @@ public class MainScene extends Scene implements Observer {
             artBoardGroup.getChildren().addAll(oTrack.getOTrackSegments());
             artBoardGroup.getChildren().addAll(oTrack.getOShadowSegments());
             artBoardGroup.getChildren().add(oTrack.getOTrackPointer());
+            artBoardGroup.getChildren().add(oTrack.getOBindingPointer());
         });
 //        document.getORoutes().forEach((ORoute oRoute) -> {
-//            artBoardGroup.getChildren().add(oRoute.getOTrack().getOTrackShadow());
-//            artBoardGroup.getChildren().add(oRoute.getOTrack());
-//            artBoardGroup.getChildren().add(oRoute.getOTrackPointer());
-//            artBoardGroup.getChildren().add(oRoute.getOBindingPointer());
 //            artBoardGroup.getChildren().addAll(oRoute.getOBindings());
 //        });
 
