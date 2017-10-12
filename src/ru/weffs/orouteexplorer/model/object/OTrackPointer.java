@@ -5,8 +5,10 @@
  */
 package ru.weffs.orouteexplorer.model.object;
 
+import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.transform.Translate;
 
 /**
  *
@@ -15,6 +17,8 @@ import javafx.scene.shape.Circle;
 public class OTrackPointer extends Circle {
 
     private final OTrack oTrack;
+
+    private Point2D translatePoint = new Point2D(0.0, 0.0);
 
     public OTrackPointer(OTrack oTrack) {
         super(4.0, Color.TRANSPARENT);
@@ -26,5 +30,29 @@ public class OTrackPointer extends Circle {
     public OTrack getOTrack() {
         return oTrack;
     }
+
+    public Point2D getTranslatePoint() {
+        return translatePoint;
+    }
     
+    public void setTranslatePoint(Point2D point) {
+        translatePoint = point;
+    }
+
+    public void setOTrackPointer(double x, double y) {
+        
+        setCenterX(x);
+        setCenterY(y);
+        setFill(Color.RED);
+    }
+
+    public void hideOTrackPointer() {
+        setFill(Color.TRANSPARENT);
+    }
+
+    protected void tranformPointer() {
+        this.getTransforms().clear();
+        this.getTransforms().add(new Translate(translatePoint.getX(), translatePoint.getY()));
+    }
 }
+

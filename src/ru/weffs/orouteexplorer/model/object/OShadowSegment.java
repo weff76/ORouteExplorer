@@ -23,13 +23,14 @@ public class OShadowSegment extends Path {
         setPath();
     }
 
-    private void setPath() {
-        this.setStrokeWidth(25.0);
+    protected final void setPath() {
+        this.getElements().clear();
+        this.setStrokeWidth(3.0);
         this.setStrokeLineCap(StrokeLineCap.ROUND);
         this.getElements().addAll(oTrackSegment.getElements());
-        this.setStroke(Color.TRANSPARENT);
-//        this.setStroke(Color.MAGENTA);
-//        this.setOpacity(0.75);
+//        this.setStroke(Color.TRANSPARENT);
+        this.setStroke(Color.MAGENTA);
+        this.setOpacity(0.75);
     }
 
     public OTrackSegment getOTrackSegment() {

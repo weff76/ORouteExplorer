@@ -12,6 +12,7 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.transform.Translate;
 
 /**
  *
@@ -29,10 +30,10 @@ public class OTrackSegment extends Path {
     private boolean bindLeft = false;
     private boolean bindRight = false;
 
-    private Point2D pivotPoint;
-    private double rotateAngle;
+    private Point2D pivotPoint = new Point2D(0.0, 0.0);
+    private double rotateAngle = 0.0;
 
-    private Point2D translatePoint;
+    private Point2D translatePoint = new Point2D(0.0, 0.0);
 
     public OTrackSegment(OTrack oTrack, int fromIndex, int toIndex) {
         super();
@@ -42,15 +43,10 @@ public class OTrackSegment extends Path {
         this.fromIndex = fromIndex;
         this.toIndex = toIndex;
 
-        this.pivotPoint = new Point2D(0.0, 0.0);
-        this.rotateAngle = 0.0;
-
-        this.translatePoint = new Point2D(0.0, 0.0);
-
         setPath();
     }
 
-    public void addBinding(int index) {
+    public boolean splitSegment(int index) {
         if (fromIndex < index) {
             oTrack.setNewTrackSegment(this, index, toIndex);
 
@@ -58,14 +54,13 @@ public class OTrackSegment extends Path {
             setBindRight(true);
             setPivotPoint(oTrack.getCoordFlat().get(index));
             setPath();
+
+            return true;
         }
+        return false;
     }
 
-    public void processBindingRight() {
-        
-    }
-
-    private void setPath() {
+    protected void setPath() {
         this.setStrokeWidth(3.0);
         this.setStroke(Color.BLUE);
         this.setOpacity(0.75);
@@ -82,7 +77,20 @@ public class OTrackSegment extends Path {
                 this.getElements().add(new LineTo(coordFlat.get(i).getX(), coordFlat.get(i).getY()));
             }
         }
-        oShadowSegment = new OShadowSegment(this);
+        if (oShadowSegment == null) {
+            oShadowSegment = new OShadowSegment(this);
+        } else {
+            oShadowSegment.setPath();
+        }
+    }
+
+    public void transformPath() {
+        this.getTransforms().clear();
+        oShadowSegment.getTransforms().clear();
+        if (!translatePoint.equals(Point2D.ZERO)) {
+            this.getTransforms().add(new Translate(translatePoint.getX(), translatePoint.getY()));
+            oShadowSegment.getTransforms().add(new Translate(translatePoint.getX(), translatePoint.getY()));
+        }
     }
 
     public int getNearestToPoint(double x, double y) {
@@ -111,8 +119,16 @@ public class OTrackSegment extends Path {
         return fromIndex;
     }
 
+    public void setFromIndex(int index) {
+        fromIndex = index;
+    }
+
     public int getToIndex() {
         return toIndex;
+    }
+
+    public void setToIndex(int index) {
+        toIndex = index;
     }
 
     public double getRotateAngle() {

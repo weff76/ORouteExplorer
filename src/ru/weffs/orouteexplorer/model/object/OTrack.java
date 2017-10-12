@@ -21,7 +21,6 @@ import ru.weffs.orouteexplorer.eventhandler.OTrackSegmentMEHandler;
  */
 public class OTrack {
 
-    
     //    private static final double EARTH_RADIUS = 6371;
     private final ArrayList<Point2D> coordSpherical;
     private final ArrayList<Point2D> coordFlat;
@@ -44,25 +43,43 @@ public class OTrack {
         setNewTrackSegment(null, 0, coordFlat.size() - 1);
     }
 
-    public final void setNewTrackSegment(OTrackSegment sourceSegment, int fromIndex, int toIndex) {
+    public final OTrackSegment setNewTrackSegment(OTrackSegment sourceSegment, int fromIndex, int toIndex) {
         OTrackSegment newSegment = new OTrackSegment(this, fromIndex, toIndex);
         if (sourceSegment == null) {
             oTrackSegments.add(newSegment);
             oShadowSegments.add(newSegment.getOShadowSegment());
         } else {
             newSegment.setBindLeft(true);
-            newSegment.setPivotPoint(coordFlat.get(fromIndex));
-            
+//            newSegment.setPivotPoint(coordFlat.get(fromIndex));
+            newSegment.setTranslatePoint(sourceSegment.getTranslatePoint());
+
             int index = oTrackSegments.indexOf(sourceSegment) + 1;
             oTrackSegments.add(index, newSegment);
             oShadowSegments.add(index, newSegment.getOShadowSegment());
             copyEvents(sourceSegment.getOShadowSegment(), newSegment.getOShadowSegment());
         }
+        return newSegment;
     }
 
-    public void processBinding(OTrackSegment segmentLeft) {
+    public void processBinding(int bindingIndex, OTrackSegment sourceSegment, Point2D point) {
+        OTrackSegment newTrackSegment = setNewTrackSegment(sourceSegment, bindingIndex, sourceSegment.getToIndex());
+
+        sourceSegment.setToIndex(bindingIndex);
+        sourceSegment.setBindRight(true);
+//        sourceSegment.setPivotPoint(oTrack.getCoordFlat().get(index));
+        sourceSegment.setPath();
+
+        // Move track
+        if (!sourceSegment.getBindLeft() && !newTrackSegment.getBindRight()) {
+            sourceSegment.setTranslatePoint(sourceSegment.getTranslatePoint().add(point));
+            sourceSegment.transformPath();
+            newTrackSegment.setTranslatePoint(newTrackSegment.getTranslatePoint().add(point));
+            newTrackSegment.transformPath();
+            oTrackPointer.setTranslatePoint(oTrackPointer.getTranslatePoint().add(point));
+            oTrackPointer.tranformPointer();
+        }
     }
-    
+
     private void setTrackData(GPX gpx) {
         if (!gpx.getTracks().isEmpty()) {
             gpx.getTracks().forEach((Track track) -> {
@@ -149,7 +166,7 @@ public class OTrack {
 
         });
     }
-    
+
     private void copyEvents(OShadowSegment source, OShadowSegment target) {
         target.setOnMouseMoved(source.getOnMouseMoved());
         target.setOnMousePressed(source.getOnMousePressed());
@@ -158,16 +175,6 @@ public class OTrack {
 
     public OTrackPointer getOTrackPointer() {
         return oTrackPointer;
-    }
-
-    public void setOTrackPointer(double x, double y) {
-        oTrackPointer.setCenterX(x);
-        oTrackPointer.setCenterY(y);
-        oTrackPointer.setFill(Color.RED);
-    }
-
-    public void hideOTrackPointer() {
-        oTrackPointer.setFill(Color.TRANSPARENT);
     }
 
     public OBindingPointer getOBindingPointer() {
@@ -200,5 +207,4 @@ public class OTrack {
 //                + Math.cos(point1.getY()) * Math.cos(point2.getY())
 //        );
 //    }
-
 }
