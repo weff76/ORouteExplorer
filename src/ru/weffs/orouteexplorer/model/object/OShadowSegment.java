@@ -25,7 +25,7 @@ public class OShadowSegment extends Path {
 
     protected final void setPath() {
         this.getElements().clear();
-        this.setStrokeWidth(3.0);
+        this.setStrokeWidth(10.0);
         this.setStrokeLineCap(StrokeLineCap.ROUND);
         this.getElements().addAll(oTrackSegment.getElements());
 //        this.setStroke(Color.TRANSPARENT);

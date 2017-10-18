@@ -52,6 +52,7 @@ public class OTrack {
             newSegment.setBindLeft(true);
 //            newSegment.setPivotPoint(coordFlat.get(fromIndex));
             newSegment.setTranslatePoint(sourceSegment.getTranslatePoint());
+            newSegment.transformPath();
 
             int index = oTrackSegments.indexOf(sourceSegment) + 1;
             oTrackSegments.add(index, newSegment);
