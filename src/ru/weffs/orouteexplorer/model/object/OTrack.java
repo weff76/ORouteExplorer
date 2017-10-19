@@ -43,8 +43,9 @@ public class OTrack {
         setNewTrackSegment(null, 0, coordFlat.size() - 1);
     }
 
-    public final OTrackSegment setNewTrackSegment(OTrackSegment sourceSegment, int fromIndex, int toIndex) {
+    public final int setNewTrackSegment(OTrackSegment sourceSegment, int fromIndex, int toIndex) {
         OTrackSegment newSegment = new OTrackSegment(this, fromIndex, toIndex);
+        int index = 0;
         if (sourceSegment == null) {
             oTrackSegments.add(newSegment);
             oShadowSegments.add(newSegment.getOShadowSegment());
@@ -52,32 +53,39 @@ public class OTrack {
             newSegment.setBindLeft(true);
 //            newSegment.setPivotPoint(coordFlat.get(fromIndex));
             newSegment.setTranslatePoint(sourceSegment.getTranslatePoint());
-            newSegment.transformPath();
 
-            int index = oTrackSegments.indexOf(sourceSegment) + 1;
+            index = oTrackSegments.indexOf(sourceSegment) + 1;
+            if (index < oTrackSegments.size()) {
+                newSegment.setBindRight(true);
+            }
             oTrackSegments.add(index, newSegment);
             oShadowSegments.add(index, newSegment.getOShadowSegment());
             copyEvents(sourceSegment.getOShadowSegment(), newSegment.getOShadowSegment());
         }
-        return newSegment;
+        return index;
     }
 
-    public void processBinding(int bindingIndex, OTrackSegment sourceSegment, Point2D point) {
-        OTrackSegment newTrackSegment = setNewTrackSegment(sourceSegment, bindingIndex, sourceSegment.getToIndex());
+    public int splitTrackSegment(int bindingIndex, OTrackSegment sourceSegment) {
+        int index = setNewTrackSegment(sourceSegment, bindingIndex, sourceSegment.getToIndex());
 
         sourceSegment.setToIndex(bindingIndex);
         sourceSegment.setBindRight(true);
 //        sourceSegment.setPivotPoint(oTrack.getCoordFlat().get(index));
         sourceSegment.setPath();
 
+        return index - 1;
+    }
+
+    public void processBinding(int segmentIndex, Point2D point) {
+
+        OTrackSegment leftSegment = oTrackSegments.get(segmentIndex);
+        OTrackSegment rightSegment = oTrackSegments.get(segmentIndex + 1);
+
         // Move track
-        if (!sourceSegment.getBindLeft() && !newTrackSegment.getBindRight()) {
-            sourceSegment.setTranslatePoint(sourceSegment.getTranslatePoint().add(point));
-            sourceSegment.transformPath();
-            newTrackSegment.setTranslatePoint(newTrackSegment.getTranslatePoint().add(point));
-            newTrackSegment.transformPath();
+        if (!leftSegment.getBindLeft() && !rightSegment.getBindRight()) {
+            leftSegment.setTranslatePoint(leftSegment.getTranslatePoint().add(point));
+            rightSegment.setTranslatePoint(rightSegment.getTranslatePoint().add(point));
             oTrackPointer.setTranslatePoint(oTrackPointer.getTranslatePoint().add(point));
-            oTrackPointer.tranformPointer();
         }
     }
 
@@ -163,8 +171,7 @@ public class OTrack {
             oShadowSegment.setOnMouseMoved(oTrackSegmentMEHandler.getMouseMoveEventHandler());
             oShadowSegment.setOnMousePressed(oTrackSegmentMEHandler.getMousePressedEventHandler());
             oShadowSegment.setOnMouseReleased(oTrackSegmentMEHandler.getMouseReleasedEventHandler());
-//        oRoute.getOTrack().getOTrackShadow().setOnMouseDragged(oRouteEventHandler.getMouseDraggedEventHandler());
-
+            oShadowSegment.setOnMouseDragged(oTrackSegmentMEHandler.getMouseDraggedEventHandler());
         });
     }
 
@@ -172,6 +179,7 @@ public class OTrack {
         target.setOnMouseMoved(source.getOnMouseMoved());
         target.setOnMousePressed(source.getOnMousePressed());
         target.setOnMouseReleased(source.getOnMouseReleased());
+        target.setOnMouseDragged(source.getOnMouseDragged());
     }
 
     public OTrackPointer getOTrackPointer() {

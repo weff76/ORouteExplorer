@@ -37,6 +37,7 @@ public class OTrackPointer extends Circle {
     
     public void setTranslatePoint(Point2D point) {
         translatePoint = point;
+        tranformPointer();
     }
 
     public void setOTrackPointer(double x, double y) {
@@ -50,7 +51,7 @@ public class OTrackPointer extends Circle {
         setFill(Color.TRANSPARENT);
     }
 
-    protected void tranformPointer() {
+    private void tranformPointer() {
         this.getTransforms().clear();
         this.getTransforms().add(new Translate(translatePoint.getX(), translatePoint.getY()));
     }

@@ -23,6 +23,7 @@ public class OTrackSegmentMEHandler extends MouseEventHandler {
     private double origPointX = 0.0;
     private double origPointY = 0.0;
     private int index = -1;
+    private int segmentIndex = -1;
 
 //    private double deltaX;
 //    private double deltaY;
@@ -54,7 +55,9 @@ public class OTrackSegmentMEHandler extends MouseEventHandler {
 
     @Override
     public EventHandler<MouseEvent> getMouseDraggedEventHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return ((MouseEvent event) -> {
+            
+        });
     }
 
     @Override
@@ -62,6 +65,7 @@ public class OTrackSegmentMEHandler extends MouseEventHandler {
         return (MouseEvent event) -> {
             if (event.isPrimaryButtonDown() && index != -1) {
                 oTrackSegment.getOTrack().getOTrackPointer().hideOTrackPointer();
+                segmentIndex = oTrackSegment.getOTrack().splitTrackSegment( index, oTrackSegment );
 //                oTrackSegment.getOTrack().setOBindingPointer(origPointX, origPointY);
                 document.notifyObservers();
             }
@@ -71,12 +75,12 @@ public class OTrackSegmentMEHandler extends MouseEventHandler {
     @Override
     public EventHandler<MouseEvent> getMouseReleasedEventHandler() {
         return (MouseEvent event) -> {
-            if (index != -1) {
+            if (segmentIndex != -1) {
                 oTrackSegment.getOTrack().processBinding(
-                        index,
-                        oTrackSegment,
+                        segmentIndex,
                         new Point2D(event.getX() - origPointX, event.getY() - origPointY)
                 );
+                segmentIndex = -1;
 //                oTrackSegment.getOTrack().hideOBindingPointer();
                 document.notifyObservers();
             }

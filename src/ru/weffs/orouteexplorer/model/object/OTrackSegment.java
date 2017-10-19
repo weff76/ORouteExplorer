@@ -84,7 +84,7 @@ public class OTrackSegment extends Path {
         }
     }
 
-    public void transformPath() {
+    private void transformPath() {
         this.getTransforms().clear();
         oShadowSegment.getTransforms().clear();
         if (!translatePoint.equals(Point2D.ZERO)) {
@@ -149,6 +149,7 @@ public class OTrackSegment extends Path {
 
     public final void setTranslatePoint(Point2D point) {
         translatePoint = point;
+        transformPath();
     }
 
     public OShadowSegment getOShadowSegment() {
