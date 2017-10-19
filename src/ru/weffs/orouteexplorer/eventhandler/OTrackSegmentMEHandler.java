@@ -56,13 +56,24 @@ public class OTrackSegmentMEHandler extends MouseEventHandler {
     @Override
     public EventHandler<MouseEvent> getMouseDraggedEventHandler() {
         return ((MouseEvent event) -> {
-            
+            System.out.println("Drag");
+            if (segmentIndex != -1) {
+//                oTrackSegment.getOTrack().processBinding(
+//                        segmentIndex,
+//                        new Point2D(event.getX() - origPointX, event.getY() - origPointY)
+//                );
+//                origPointX = event.getX();
+//                origPointY = event.getY();
+////                oTrackSegment.getOTrack().hideOBindingPointer();
+                document.notifyObservers();
+            }
         });
     }
 
     @Override
     public EventHandler<MouseEvent> getMousePressedEventHandler() {
         return (MouseEvent event) -> {
+            System.out.println("Press");
             if (event.isPrimaryButtonDown() && index != -1) {
                 oTrackSegment.getOTrack().getOTrackPointer().hideOTrackPointer();
                 segmentIndex = oTrackSegment.getOTrack().splitTrackSegment( index, oTrackSegment );
@@ -75,6 +86,7 @@ public class OTrackSegmentMEHandler extends MouseEventHandler {
     @Override
     public EventHandler<MouseEvent> getMouseReleasedEventHandler() {
         return (MouseEvent event) -> {
+            System.out.println("Release");
             if (segmentIndex != -1) {
                 oTrackSegment.getOTrack().processBinding(
                         segmentIndex,
